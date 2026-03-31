@@ -7,30 +7,855 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    :root{--nav:#163949;--nav2:#224b5d;--green:#173f31;--gold:#c7a35b;--paper:#f5f0e4;--paper2:#fbf8f1;--line:#d7c59f;--ink:#24342d;--muted:#6d6a62;--shadow:0 12px 28px rgba(33,33,24,.12)}
-    body{background:var(--paper);color:var(--ink)}nav.container-fluid{background:linear-gradient(180deg,var(--nav2),var(--nav));border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:50}.font-normal{font-weight:normal}nav strong{font-family:Impact,'Arial Narrow',Arial,sans-serif;font-size:2rem;font-weight:700}nav a{color:#f6f2e8!important;font-weight:700}nav [role=button]{background:transparent;border:1px solid rgba(255,255,255,.34);color:#f6f2e8}.surface{background:linear-gradient(180deg,#fbf8f1,#f3eadb);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}main.container{max-width:1320px;padding-top:1.2rem;padding-bottom:2rem}.panel{padding:18px}.panel h2,.panel h3{font-family:Georgia,'Times New Roman',serif;color:var(--green)}.muted{color:var(--muted)}.controls{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:end}.masters-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.masters-table thead th{background:#1f5d47;color:#f8f4ea;padding:.72rem .65rem;border-bottom:1px solid rgba(255,255,255,.16);font-weight:700}.masters-table td{padding:.76rem .65rem;border-bottom:1px solid rgba(199,163,91,.22)}.masters-table tbody tr:nth-child(odd){background:#fffdfa}.masters-table tbody tr:nth-child(even){background:#f5eedf}.hidden{display:none!important}.toast{position:fixed;right:1rem;bottom:1rem;background:#173f31;color:#fff;padding:.85rem 1rem;border-radius:12px;opacity:0;transform:translateY(8px);transition:.2s;z-index:100}.toast.show{opacity:1;transform:translateY(0)}@media (max-width:900px){.controls{grid-template-columns:1fr}}
+    :root{
+      --nav:#163949;
+      --nav2:#224b5d;
+      --green:#173f31;
+      --green2:#245746;
+      --gold:#c7a35b;
+      --paper:#f5f0e4;
+      --paper2:#fbf8f1;
+      --line:#d7c59f;
+      --ink:#24342d;
+      --muted:#6d6a62;
+      --shadow:0 12px 28px rgba(33,33,24,.12);
+      --red:#9a2b2b;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      background:var(--paper);
+      color:var(--ink);
+      margin:0;
+    }
+
+    nav.container-fluid{
+      background:linear-gradient(180deg,var(--nav2),var(--nav));
+      border-bottom:3px solid var(--gold);
+      position:sticky;
+      top:0;
+      z-index:50;
+    }
+
+    .font-normal{font-weight:normal}
+
+    nav strong{
+      font-family:Impact,'Arial Narrow',Arial,sans-serif;
+      font-size:2rem;
+      font-weight:700;
+    }
+
+    nav a{
+      color:#f6f2e8!important;
+      font-weight:700;
+    }
+
+    nav [role=button]{
+      background:transparent;
+      border:1px solid rgba(255,255,255,.34);
+      color:#f6f2e8;
+    }
+
+    main.container{
+      max-width:1420px;
+      padding-top:1.2rem;
+      padding-bottom:2rem;
+    }
+
+    .surface{
+      background:linear-gradient(180deg,#fbf8f1,#f3eadb);
+      border:1px solid var(--line);
+      border-radius:8px;
+      box-shadow:var(--shadow);
+    }
+
+    .panel{padding:18px}
+
+    .panel h2,.panel h3,.panel h4{
+      font-family:Georgia,'Times New Roman',serif;
+      color:var(--green);
+    }
+
+    .muted{color:var(--muted)}
+
+    .controls{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:12px;
+      align-items:end;
+    }
+
+    .masters-table{
+      width:100%;
+      border-collapse:collapse;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .masters-table thead th{
+      background:#1f5d47;
+      color:#f8f4ea;
+      padding:.72rem .65rem;
+      border-bottom:1px solid rgba(255,255,255,.16);
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .masters-table td{
+      padding:.76rem .65rem;
+      border-bottom:1px solid rgba(199,163,91,.22);
+      vertical-align:middle;
+    }
+
+    .masters-table tbody tr:nth-child(odd){background:#fffdfa}
+    .masters-table tbody tr:nth-child(even){background:#f5eedf}
+
+    .hidden{display:none!important}
+
+    .toast{
+      position:fixed;
+      right:1rem;
+      bottom:1rem;
+      background:#173f31;
+      color:#fff;
+      padding:.85rem 1rem;
+      border-radius:12px;
+      opacity:0;
+      transform:translateY(8px);
+      transition:.2s;
+      z-index:100;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .actions{
+      display:flex;
+      gap:.45rem;
+      flex-wrap:wrap;
+    }
+
+    .btn-small{
+      padding:.36rem .7rem;
+      font-size:.92rem;
+      line-height:1.1;
+      min-height:auto;
+      margin:0;
+    }
+
+    .scorecard-meta{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin-bottom:1rem;
+    }
+
+    .meta-box{
+      background:#fffdf8;
+      border:1px solid rgba(199,163,91,.35);
+      border-radius:8px;
+      padding:.8rem .9rem;
+    }
+
+    .meta-box strong{
+      display:block;
+      font-size:.82rem;
+      color:var(--muted);
+      margin-bottom:.2rem;
+      text-transform:uppercase;
+      letter-spacing:.03em;
+    }
+
+    .score-summary{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin:1rem 0 1rem;
+    }
+
+    .summary-box{
+      background:#fffdf8;
+      border:1px solid rgba(199,163,91,.35);
+      border-radius:8px;
+      padding:.9rem 1rem;
+      text-align:center;
+    }
+
+    .summary-box strong{
+      display:block;
+      font-size:.82rem;
+      color:var(--muted);
+      margin-bottom:.2rem;
+      text-transform:uppercase;
+      letter-spacing:.03em;
+    }
+
+    .summary-box span{
+      font-family:Georgia,'Times New Roman',serif;
+      font-size:1.55rem;
+      font-weight:700;
+      color:var(--green);
+    }
+
+    .scorecard-table input[type="number"]{
+      margin:0;
+      min-width:76px;
+    }
+
+    .score-good{color:#216b49;font-weight:700}
+    .score-bad{color:var(--red);font-weight:700}
+    .score-even{color:#8c6d31;font-weight:700}
+
+    dialog{
+      border:none;
+      padding:0;
+      border-radius:14px;
+      width:min(1200px,96vw);
+      max-width:96vw;
+    }
+
+    dialog::backdrop{
+      background:rgba(0,0,0,.42);
+      backdrop-filter:blur(2px);
+    }
+
+    .modal-card{
+      background:linear-gradient(180deg,#fbf8f1,#f3eadb);
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      padding:1rem 1.2rem;
+      background:linear-gradient(180deg,#1f5d47,#184334);
+      color:#f8f4ea;
+      border-bottom:2px solid var(--gold);
+    }
+
+    .modal-header h3{
+      margin:0;
+      color:#f8f4ea;
+      font-family:Georgia,'Times New Roman',serif;
+    }
+
+    .modal-body{
+      padding:1rem 1.2rem 1.2rem;
+    }
+
+    .modal-footer{
+      display:flex;
+      justify-content:flex-end;
+      gap:.75rem;
+      padding:0 1.2rem 1.2rem;
+    }
+
+    .help-text{
+      font-size:.93rem;
+      color:var(--muted);
+      margin-bottom:1rem;
+    }
+
+    @media (max-width:1100px){
+      .controls{grid-template-columns:1fr 1fr}
+      .scorecard-meta,.score-summary{grid-template-columns:1fr 1fr}
+    }
+
+    @media (max-width:700px){
+      .controls,
+      .scorecard-meta,
+      .score-summary{
+        grid-template-columns:1fr;
+      }
+    }
   </style>
 </head>
 <body>
-<nav class="container-fluid"><ul><li><strong class="font-normal"><span style="color:#E30613">ACEL</span> <span style="color:#020A3A">CUP</span></strong></li></ul><ul><li><a href="index.html">Leaderboard</a></li><li><a href="register.html">Registrer Runde</a></li><li><a href="admin.html">Admin Panel</a></li><li><a href="#" role="button" id="logoutBtn">Logg ut</a></li></ul></nav>
-<main class="container"><div class="grid"><section>
-<article class="surface panel"><h2>Admin Panel</h2><p class="muted">Kun admin skal kunne se og bruke dette panelet. Her kan runder filtreres og slettes.</p><p id="adminStatus" class="muted">Sjekker admin-tilgang ...</p></article>
-<article class="surface panel hidden" id="adminContent" style="margin-top:1rem;"><h3>Alle runder</h3><div class="controls"><label>Bane<select id="filterCourse"><option value="">Alle</option></select></label><label>Spiller<select id="filterPlayer"><option value="">Alle</option></select></label><label>Måned<select id="filterMonth"><option value="">Alle</option></select></label><label>Format<select id="filterFormat"><option value="">Alle</option><option value="full">Full 18</option><option value="front">Front 9</option><option value="back">Back 9</option></select></label><label>Sorter<select id="sortRounds"><option value="date-desc">Dato nyeste</option><option value="date-asc">Dato eldste</option><option value="score-asc">Beste score</option><option value="score-desc">Svakeste score</option><option value="player-asc">Spiller A–Å</option><option value="course-asc">Bane A–Å</option></select></label></div><div style="overflow:auto;margin-top:1rem;"><table class="masters-table" id="roundsTable"><thead><tr><th>Dato</th><th>Måned</th><th>Spiller</th><th>Markør</th><th>Bane</th><th>Tee</th><th>Format</th><th>HCP</th><th>PHCP</th><th>Brutto</th><th>Netto</th><th>Score</th><th>Handling</th></tr></thead><tbody></tbody></table></div></article>
-</section></div></main>
-<div class="toast" id="toast"></div>
-<script>
-const SUPABASE_URL='https://geduwhzlwdphouslxhsd.supabase.co'; const SUPABASE_ANON_KEY='sb_publishable_W8nt1u4S9htR3Zlz8-8SDA__cvNb_jG'; const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-const COURSE_ORDER=['Solnør GK','Giske GK','Volda GK','Sunnmøre GK','Rauma GK']; const MONTH_NAMES=['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember'];
-const state={players:[],rounds:[],isAdmin:false}; const el={logoutBtn:document.getElementById('logoutBtn'),adminStatus:document.getElementById('adminStatus'),adminContent:document.getElementById('adminContent'),filterCourse:document.getElementById('filterCourse'),filterPlayer:document.getElementById('filterPlayer'),filterMonth:document.getElementById('filterMonth'),filterFormat:document.getElementById('filterFormat'),sortRounds:document.getElementById('sortRounds'),roundsTableBody:document.querySelector('#roundsTable tbody'),toast:document.getElementById('toast')};
-[el.filterCourse,el.filterPlayer,el.filterMonth,el.filterFormat,el.sortRounds].forEach(node=>node.addEventListener('change',renderRoundsTable));
-function formatMonthKey(key){ const [y,m]=key.split('-'); return MONTH_NAMES[Number(m)-1]+' '+y; } function formatDate(dateStr){ const [y,m,d]=dateStr.split('-'); return `${d}.${m}.${y}`; } function scoreHtml(v){ return v<0?`<span style="color:#216b49;font-weight:700">${v}</span>`:v>0?`<span style="color:#9a2b2b;font-weight:700">+${v}</span>`:`<span style="color:#8c6d31;font-weight:700">E</span>`; }
-function fillSelect(select,values,labelFn){ const current=select.value; select.innerHTML=values.map(v=>`<option value="${String(v).replaceAll('"','&quot;')}">${labelFn(v)}</option>`).join(''); if(values.includes(current)) select.value=current; }
-async function init(){ const { data }=await supabaseClient.auth.getSession(); const user=data.session?.user; if(!user){ el.adminStatus.textContent='Du må logge inn først.'; return; } const { data:admin }=await supabaseClient.from('admin_users').select('user_id').eq('user_id',user.id).maybeSingle(); if(!admin){ el.adminStatus.textContent='Du er innlogget, men er ikke admin.'; return; } state.isAdmin=true; el.adminStatus.textContent='Admin-tilgang bekreftet.'; el.adminContent.classList.remove('hidden'); const { data:players }=await supabaseClient.from('players').select('*').order('name',{ascending:true}); state.players=players||[]; const { data:rounds }=await supabaseClient.from('rounds').select('*').order('date',{ascending:false}); state.rounds=rounds||[]; fillSelect(el.filterCourse,['',...COURSE_ORDER],v=>v||'Alle'); fillSelect(el.filterPlayer,['',...state.players.map(p=>String(p.id))],v=>!v?'Alle':(state.players.find(p=>String(p.id)===v)?.name||'Ukjent')); fillSelect(el.filterMonth,['',...[...new Set(state.rounds.map(r=>r.month_key))].sort()],v=>v?formatMonthKey(v):'Alle'); renderRoundsTable(); }
-function renderRoundsTable(){ let rounds=[...state.rounds]; if(el.filterCourse.value) rounds=rounds.filter(r=>r.course===el.filterCourse.value); if(el.filterPlayer.value) rounds=rounds.filter(r=>String(r.player_id)===el.filterPlayer.value); if(el.filterMonth.value) rounds=rounds.filter(r=>r.month_key===el.filterMonth.value); if(el.filterFormat.value) rounds=rounds.filter(r=>r.format===el.filterFormat.value); const sort=el.sortRounds.value; rounds.sort((a,b)=>{ switch(sort){ case 'date-asc': return a.date.localeCompare(b.date); case 'score-asc': return a.score_relative-b.score_relative||a.date.localeCompare(b.date); case 'score-desc': return b.score_relative-a.score_relative||b.date.localeCompare(a.date); case 'player-asc': return a.player_name.localeCompare(b.player_name,'no'); case 'course-asc': return a.course.localeCompare(b.course,'no')||a.date.localeCompare(b.date); default: return b.date.localeCompare(a.date)||(b.created_at||'').localeCompare(a.created_at||''); }}); el.roundsTableBody.innerHTML=rounds.length?rounds.map(r=>`<tr><td>${formatDate(r.date)}</td><td>${formatMonthKey(r.month_key)}</td><td>${r.player_name}</td><td>${r.marker}</td><td>${r.course}</td><td>${r.tee}</td><td>${r.format==='front'?'Front 9':r.format==='back'?'Back 9':'18 Hull'}</td><td>${Number(r.handicap_index).toFixed(1)}</td><td>${r.playing_handicap}</td><td>${r.gross_total}</td><td>${r.net_total}</td><td>${scoreHtml(r.score_relative)}</td><td><button type="button" data-del="${r.id}" class="secondary">Slett</button></td></tr>`).join(''):'<tr><td colspan="13">Ingen runder matcher filtrene.</td></tr>'; document.querySelectorAll('[data-del]').forEach(btn=>btn.addEventListener('click',()=>deleteRound(btn.dataset.del))); }
-async function deleteRound(roundId){ if(!confirm('Er du sikker på at du vil slette denne runden?')) return; const { error }=await supabaseClient.from('rounds').delete().eq('id',roundId); if(error){ showToast('Kunne ikke slette runden: '+error.message); return; } const { data:rounds }=await supabaseClient.from('rounds').select('*').order('date',{ascending:false}); state.rounds=rounds||[]; renderRoundsTable(); showToast('Runden er slettet.'); }
-async function logout(){ await supabaseClient.auth.signOut(); showToast('Logget ut.'); }
-function showToast(message){ el.toast.textContent=message; el.toast.classList.add('show'); clearTimeout(showToast._timer); showToast._timer=setTimeout(()=>el.toast.classList.remove('show'),2200); }
-el.logoutBtn.addEventListener('click',async(e)=>{ e.preventDefault(); await logout(); }); init();
-</script>
+  <nav class="container-fluid">
+    <ul>
+      <li>
+        <strong class="font-normal">
+          <span style="color:#E30613">ACEL</span> <span style="color:#020A3A">CUP</span>
+        </strong>
+      </li>
+    </ul>
+    <ul>
+      <li><a href="index.html">Leaderboard</a></li>
+      <li><a href="register.html">Registrer Runde</a></li>
+      <li><a href="admin.html">Admin Panel</a></li>
+      <li><a href="#" role="button" id="logoutBtn">Logg ut</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <div class="grid">
+      <section>
+        <article class="surface panel">
+          <h2>Admin Panel</h2>
+          <p class="muted">Kun admin skal kunne se og bruke dette panelet. Her kan runder filtreres, åpnes, redigeres og slettes.</p>
+          <p id="adminStatus" class="muted">Sjekker admin-tilgang ...</p>
+        </article>
+
+        <article class="surface panel hidden" id="adminContent" style="margin-top:1rem;">
+          <h3>Alle runder</h3>
+
+          <div class="controls">
+            <label>
+              Bane
+              <select id="filterCourse"><option value="">Alle</option></select>
+            </label>
+
+            <label>
+              Spiller
+              <select id="filterPlayer"><option value="">Alle</option></select>
+            </label>
+
+            <label>
+              Måned
+              <select id="filterMonth"><option value="">Alle</option></select>
+            </label>
+
+            <label>
+              Format
+              <select id="filterFormat">
+                <option value="">Alle</option>
+                <option value="full">Full 18</option>
+                <option value="front">Front 9</option>
+                <option value="back">Back 9</option>
+              </select>
+            </label>
+
+            <label>
+              Sorter
+              <select id="sortRounds">
+                <option value="date-desc">Dato nyeste</option>
+                <option value="date-asc">Dato eldste</option>
+                <option value="score-asc">Beste score</option>
+                <option value="score-desc">Svakeste score</option>
+                <option value="player-asc">Spiller A–Å</option>
+                <option value="course-asc">Bane A–Å</option>
+              </select>
+            </label>
+          </div>
+
+          <div style="overflow:auto;margin-top:1rem;">
+            <table class="masters-table" id="roundsTable">
+              <thead>
+                <tr>
+                  <th>Dato</th>
+                  <th>Måned</th>
+                  <th>Spiller</th>
+                  <th>Markør</th>
+                  <th>Bane</th>
+                  <th>Tee</th>
+                  <th>Format</th>
+                  <th>HCP</th>
+                  <th>PHCP</th>
+                  <th>Brutto</th>
+                  <th>Netto</th>
+                  <th>Score</th>
+                  <th>Handling</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="scorecardDialog">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="scorecardTitle">Scorekort</h3>
+        <button type="button" class="secondary btn-small" id="closeScorecardBtn">Lukk</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="scorecard-meta" id="scorecardMeta"></div>
+
+        <p class="help-text">
+          Her kan du justere hullscore én og én. Når du lagrer, beregnes brutto, netto, score og måned på nytt automatisk.
+        </p>
+
+        <div class="score-summary" id="scoreSummary">
+          <div class="summary-box"><strong>Brutto</strong><span id="sumGross">0</span></div>
+          <div class="summary-box"><strong>Netto</strong><span id="sumNet">0</span></div>
+          <div class="summary-box"><strong>Par</strong><span id="sumPar">0</span></div>
+          <div class="summary-box"><strong>Score</strong><span id="sumRelative">E</span></div>
+        </div>
+
+        <div style="overflow:auto;">
+          <table class="masters-table scorecard-table" id="scorecardTable">
+            <thead>
+              <tr>
+                <th>Hull</th>
+                <th>Par</th>
+                <th>HCP</th>
+                <th>Mottatte slag</th>
+                <th>Brutto</th>
+                <th>Maks tellende</th>
+                <th>Tellende netto</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="secondary" id="cancelScorecardBtn">Avbryt</button>
+        <button type="button" id="saveScorecardBtn">Lagre endringer</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const SUPABASE_URL = 'https://geduwhzlwdphouslxhsd.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_W8nt1u4S9htR3Zlz8-8SDA__cvNb_jG';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const COURSE_ORDER = ['Solnør GK','Giske GK','Volda GK','Sunnmøre GK','Rauma GK'];
+    const MONTH_NAMES = ['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember'];
+
+    const state = {
+      players: [],
+      rounds: [],
+      isAdmin: false,
+      selectedRound: null
+    };
+
+    const el = {
+      logoutBtn: document.getElementById('logoutBtn'),
+      adminStatus: document.getElementById('adminStatus'),
+      adminContent: document.getElementById('adminContent'),
+      filterCourse: document.getElementById('filterCourse'),
+      filterPlayer: document.getElementById('filterPlayer'),
+      filterMonth: document.getElementById('filterMonth'),
+      filterFormat: document.getElementById('filterFormat'),
+      sortRounds: document.getElementById('sortRounds'),
+      roundsTableBody: document.querySelector('#roundsTable tbody'),
+      toast: document.getElementById('toast'),
+
+      scorecardDialog: document.getElementById('scorecardDialog'),
+      scorecardTitle: document.getElementById('scorecardTitle'),
+      scorecardMeta: document.getElementById('scorecardMeta'),
+      scorecardTableBody: document.querySelector('#scorecardTable tbody'),
+      closeScorecardBtn: document.getElementById('closeScorecardBtn'),
+      cancelScorecardBtn: document.getElementById('cancelScorecardBtn'),
+      saveScorecardBtn: document.getElementById('saveScorecardBtn'),
+      sumGross: document.getElementById('sumGross'),
+      sumNet: document.getElementById('sumNet'),
+      sumPar: document.getElementById('sumPar'),
+      sumRelative: document.getElementById('sumRelative')
+    };
+
+    [el.filterCourse, el.filterPlayer, el.filterMonth, el.filterFormat, el.sortRounds]
+      .forEach(node => node.addEventListener('change', renderRoundsTable));
+
+    function formatMonthKey(key){
+      if(!key) return '—';
+      const [y,m] = key.split('-');
+      return MONTH_NAMES[Number(m)-1] + ' ' + y;
+    }
+
+    function formatDate(dateStr){
+      const [y,m,d] = dateStr.split('-');
+      return `${d}.${m}.${y}`;
+    }
+
+    function scoreText(v){
+      return v < 0 ? String(v) : v > 0 ? `+${v}` : 'E';
+    }
+
+    function scoreHtml(v){
+      return v < 0
+        ? `<span style="color:#216b49;font-weight:700">${v}</span>`
+        : v > 0
+          ? `<span style="color:#9a2b2b;font-weight:700">+${v}</span>`
+          : `<span style="color:#8c6d31;font-weight:700">E</span>`;
+    }
+
+    function fillSelect(select, values, labelFn){
+      const current = select.value;
+      select.innerHTML = values.map(v => `<option value="${String(v).replaceAll('"','&quot;')}">${labelFn(v)}</option>`).join('');
+      if(values.includes(current)) select.value = current;
+    }
+
+    function getFormatLabel(format){
+      return format === 'front' ? 'Front 9' : format === 'back' ? 'Back 9' : '18 Hull';
+    }
+
+    function monthKeyFromDate(dateStr){
+      const [y,m] = dateStr.split('-');
+      return `${y}-${m}`;
+    }
+
+    function numeric(value, fallback = 0){
+      const n = Number(value);
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function calculateMaxTellende(par, strokesReceived){
+      return numeric(par) + 2 + numeric(strokesReceived);
+    }
+
+    function calculateTellendeNetto(grossInput, par, strokesReceived){
+      const gross = numeric(grossInput);
+      const maxTellende = calculateMaxTellende(par, strokesReceived);
+      const cappedGross = Math.min(gross, maxTellende);
+      return cappedGross - numeric(strokesReceived);
+    }
+
+    function cloneDeep(obj){
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function recalculateRound(round){
+      const holes = Array.isArray(round.hole_breakdown) ? round.hole_breakdown : [];
+
+      let grossTotal = 0;
+      let netTotal = 0;
+      let parTotal = 0;
+
+      for(const hole of holes){
+        const played = hole.played !== false && hole.grossInput !== null && hole.grossInput !== '' && !Number.isNaN(Number(hole.grossInput));
+        if(!played) continue;
+
+        const par = numeric(hole.par);
+        const gross = numeric(hole.grossInput);
+        const strokesReceived = numeric(hole.strokesReceived);
+
+        grossTotal += gross;
+        netTotal += calculateTellendeNetto(gross, par, strokesReceived);
+        parTotal += par;
+      }
+
+      round.gross_total = grossTotal;
+      round.net_total = netTotal;
+      round.score_relative = netTotal - parTotal;
+      round.month_key = monthKeyFromDate(round.date);
+
+      return {
+        grossTotal,
+        netTotal,
+        parTotal,
+        relative: round.score_relative
+      };
+    }
+
+    function renderScoreSummary(round){
+      const summary = recalculateRound(round);
+      el.sumGross.textContent = summary.grossTotal;
+      el.sumNet.textContent = summary.netTotal;
+      el.sumPar.textContent = summary.parTotal;
+      el.sumRelative.textContent = scoreText(summary.relative);
+      el.sumRelative.className = summary.relative < 0 ? 'score-good' : summary.relative > 0 ? 'score-bad' : 'score-even';
+    }
+
+    function renderScorecardTable(){
+      const round = state.selectedRound;
+      const holes = Array.isArray(round?.hole_breakdown) ? round.hole_breakdown : [];
+
+      if(!holes.length){
+        el.scorecardTableBody.innerHTML = '<tr><td colspan="7">Ingen hull-data funnet på denne runden.</td></tr>';
+        return;
+      }
+
+      el.scorecardTableBody.innerHTML = holes.map((hole, index) => {
+        const par = numeric(hole.par);
+        const strokesReceived = numeric(hole.strokesReceived);
+        const gross = hole.grossInput ?? '';
+        const maxTellende = calculateMaxTellende(par, strokesReceived);
+        const tellendeNetto = gross === '' ? '—' : calculateTellendeNetto(gross, par, strokesReceived);
+
+        return `
+          <tr>
+            <td>${hole.hole ?? (index + 1)}</td>
+            <td>${par}</td>
+            <td>${hole.hcp ?? ''}</td>
+            <td>${strokesReceived}</td>
+            <td>
+              <input
+                type="number"
+                min="1"
+                step="1"
+                value="${gross}"
+                data-hole-index="${index}"
+                class="hole-gross-input"
+              >
+            </td>
+            <td>${maxTellende}</td>
+            <td>${tellendeNetto}</td>
+          </tr>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.hole-gross-input').forEach(input => {
+        input.addEventListener('input', handleHoleInputChange);
+      });
+    }
+
+    function handleHoleInputChange(event){
+      const input = event.target;
+      const index = Number(input.dataset.holeIndex);
+      const holes = state.selectedRound?.hole_breakdown || [];
+      const hole = holes[index];
+      if(!hole) return;
+
+      const value = input.value.trim();
+
+      if(value === ''){
+        hole.grossInput = '';
+        hole.played = false;
+      } else {
+        hole.grossInput = Number(value);
+        hole.played = true;
+      }
+
+      renderScoreSummary(state.selectedRound);
+      renderScorecardTable();
+    }
+
+    function renderScorecardMeta(round){
+      el.scorecardMeta.innerHTML = `
+        <div class="meta-box"><strong>Spiller</strong>${round.player_name || '—'}</div>
+        <div class="meta-box"><strong>Dato</strong>${formatDate(round.date)}</div>
+        <div class="meta-box"><strong>Bane</strong>${round.course || '—'}</div>
+        <div class="meta-box"><strong>Format</strong>${getFormatLabel(round.format)}</div>
+      `;
+    }
+
+    async function refreshRounds(){
+      const { data: rounds, error } = await supabaseClient
+        .from('rounds')
+        .select('*')
+        .order('date', { ascending:false });
+
+      if(error){
+        showToast('Kunne ikke hente runder: ' + error.message);
+        return;
+      }
+
+      state.rounds = rounds || [];
+      fillSelect(el.filterMonth, ['', ...[...new Set(state.rounds.map(r => r.month_key))].sort()], v => v ? formatMonthKey(v) : 'Alle');
+      renderRoundsTable();
+    }
+
+    async function init(){
+      const { data } = await supabaseClient.auth.getSession();
+      const user = data.session?.user;
+
+      if(!user){
+        el.adminStatus.textContent = 'Du må logge inn først.';
+        return;
+      }
+
+      const { data: admin } = await supabaseClient
+        .from('admin_users')
+        .select('user_id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if(!admin){
+        el.adminStatus.textContent = 'Du er innlogget, men er ikke admin.';
+        return;
+      }
+
+      state.isAdmin = true;
+      el.adminStatus.textContent = 'Admin-tilgang bekreftet.';
+      el.adminContent.classList.remove('hidden');
+
+      const { data: players } = await supabaseClient
+        .from('players')
+        .select('*')
+        .order('name', { ascending:true });
+
+      state.players = players || [];
+
+      await refreshRounds();
+
+      fillSelect(el.filterCourse, ['', ...COURSE_ORDER], v => v || 'Alle');
+      fillSelect(
+        el.filterPlayer,
+        ['', ...state.players.map(p => String(p.id))],
+        v => !v ? 'Alle' : (state.players.find(p => String(p.id) === v)?.name || 'Ukjent')
+      );
+    }
+
+    function renderRoundsTable(){
+      let rounds = [...state.rounds];
+
+      if(el.filterCourse.value) rounds = rounds.filter(r => r.course === el.filterCourse.value);
+      if(el.filterPlayer.value) rounds = rounds.filter(r => String(r.player_id) === el.filterPlayer.value);
+      if(el.filterMonth.value) rounds = rounds.filter(r => r.month_key === el.filterMonth.value);
+      if(el.filterFormat.value) rounds = rounds.filter(r => r.format === el.filterFormat.value);
+
+      const sort = el.sortRounds.value;
+      rounds.sort((a,b) => {
+        switch(sort){
+          case 'date-asc':
+            return a.date.localeCompare(b.date);
+          case 'score-asc':
+            return a.score_relative - b.score_relative || a.date.localeCompare(b.date);
+          case 'score-desc':
+            return b.score_relative - a.score_relative || b.date.localeCompare(a.date);
+          case 'player-asc':
+            return a.player_name.localeCompare(b.player_name,'no');
+          case 'course-asc':
+            return a.course.localeCompare(b.course,'no') || a.date.localeCompare(b.date);
+          default:
+            return b.date.localeCompare(a.date) || (b.created_at || '').localeCompare(a.created_at || '');
+        }
+      });
+
+      el.roundsTableBody.innerHTML = rounds.length
+        ? rounds.map(r => `
+            <tr>
+              <td>${formatDate(r.date)}</td>
+              <td>${formatMonthKey(r.month_key)}</td>
+              <td>${r.player_name}</td>
+              <td>${r.marker || '—'}</td>
+              <td>${r.course}</td>
+              <td>${r.tee || '—'}</td>
+              <td>${getFormatLabel(r.format)}</td>
+              <td>${Number(r.handicap_index || 0).toFixed(1)}</td>
+              <td>${r.playing_handicap ?? '—'}</td>
+              <td>${r.gross_total ?? '—'}</td>
+              <td>${r.net_total ?? '—'}</td>
+              <td>${scoreHtml(r.score_relative ?? 0)}</td>
+              <td>
+                <div class="actions">
+                  <button type="button" data-view="${r.id}" class="btn-small">Vis</button>
+                  <button type="button" data-del="${r.id}" class="secondary btn-small">Slett</button>
+                </div>
+              </td>
+            </tr>
+          `).join('')
+        : '<tr><td colspan="13">Ingen runder matcher filtrene.</td></tr>';
+
+      document.querySelectorAll('[data-del]').forEach(btn => {
+        btn.addEventListener('click', () => deleteRound(btn.dataset.del));
+      });
+
+      document.querySelectorAll('[data-view]').forEach(btn => {
+        btn.addEventListener('click', () => openScorecard(btn.dataset.view));
+      });
+    }
+
+    async function openScorecard(roundId){
+      const round = state.rounds.find(r => String(r.id) === String(roundId));
+
+      if(!round){
+        showToast('Fant ikke runden.');
+        return;
+      }
+
+      state.selectedRound = cloneDeep(round);
+      el.scorecardTitle.textContent = `Scorekort – ${round.player_name}`;
+      renderScorecardMeta(state.selectedRound);
+      renderScoreSummary(state.selectedRound);
+      renderScorecardTable();
+      el.scorecardDialog.showModal();
+    }
+
+    async function saveScorecard(){
+      const round = state.selectedRound;
+      if(!round){
+        showToast('Ingen runde valgt.');
+        return;
+      }
+
+      if(!Array.isArray(round.hole_breakdown) || !round.hole_breakdown.length){
+        showToast('Denne runden mangler hull-data og kan ikke redigeres.');
+        return;
+      }
+
+      recalculateRound(round);
+
+      const payload = {
+        hole_breakdown: round.hole_breakdown,
+        gross_total: round.gross_total,
+        net_total: round.net_total,
+        score_relative: round.score_relative,
+        month_key: round.month_key
+      };
+
+      const { error } = await supabaseClient
+        .from('rounds')
+        .update(payload)
+        .eq('id', round.id);
+
+      if(error){
+        showToast('Kunne ikke lagre endringer: ' + error.message);
+        return;
+      }
+
+      el.scorecardDialog.close();
+      state.selectedRound = null;
+      await refreshRounds();
+      showToast('Scorekortet er oppdatert.');
+    }
+
+    async function deleteRound(roundId){
+      if(!confirm('Er du sikker på at du vil slette denne runden?')) return;
+
+      const { error } = await supabaseClient
+        .from('rounds')
+        .delete()
+        .eq('id', roundId);
+
+      if(error){
+        showToast('Kunne ikke slette runden: ' + error.message);
+        return;
+      }
+
+      await refreshRounds();
+      showToast('Runden er slettet.');
+    }
+
+    async function logout(){
+      await supabaseClient.auth.signOut();
+      showToast('Logget ut.');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 500);
+    }
+
+    function showToast(message){
+      el.toast.textContent = message;
+      el.toast.classList.add('show');
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => el.toast.classList.remove('show'), 2200);
+    }
+
+    el.logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await logout();
+    });
+
+    el.closeScorecardBtn.addEventListener('click', () => {
+      el.scorecardDialog.close();
+      state.selectedRound = null;
+    });
+
+    el.cancelScorecardBtn.addEventListener('click', () => {
+      el.scorecardDialog.close();
+      state.selectedRound = null;
+    });
+
+    el.saveScorecardBtn.addEventListener('click', saveScorecard);
+
+    init();
+  </script>
 </body>
 </html>
