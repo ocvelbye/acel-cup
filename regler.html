@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Regler | ACEL CUP</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    :root{
+      --nav:#163949;
+      --nav2:#224b5d;
+      --green:#173f31;
+      --green2:#245746;
+      --gold:#c7a35b;
+      --paper:#f3efe6;
+      --paper2:#fbf8f1;
+      --line:#d8c8a3;
+      --ink:#24342d;
+      --muted:#6d6a62;
+      --shadow:0 14px 30px rgba(33,33,24,.12);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,0) 24%),
+        var(--paper);
+      color:var(--ink);
+    }
+
+    nav.container-fluid{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:linear-gradient(180deg,var(--nav2),var(--nav));
+      border-bottom:3px solid var(--gold);
+      padding:.65rem 1.5rem;
+      box-shadow:0 4px 18px rgba(0,0,0,.12);
+    }
+
+    .font-normal{font-weight:normal}
+
+    nav strong{
+      font-family:Impact,"Arial Narrow",Arial,sans-serif;
+      font-size:2.05rem;
+      letter-spacing:.02em;
+      font-weight:700;
+    }
+
+    nav a{
+      color:#f6f2e8 !important;
+      font-weight:700;
+      text-decoration:none;
+    }
+
+    nav [role=button]{
+      background:transparent;
+      border:1px solid rgba(255,255,255,.34);
+      color:#f6f2e8;
+      padding:.45rem .95rem;
+      border-radius:2px;
+    }
+
+    main.container{
+      max-width:1240px;
+      padding:2rem 1rem 3rem;
+    }
+
+    .page-card{
+      background:linear-gradient(180deg,#fcfaf4,#f2eadb);
+      border:1px solid var(--line);
+      border-radius:10px;
+      box-shadow:var(--shadow);
+      padding:2rem;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .page-card::before{
+      content:"";
+      position:absolute;
+      inset:14px;
+      border:1px solid rgba(199,163,91,.2);
+      border-radius:8px;
+      pointer-events:none;
+    }
+
+    .page-title{
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:2.6rem;
+      color:#173f31;
+      margin:0 0 .75rem;
+      line-height:1.05;
+    }
+
+    .page-rule{
+      height:1px;
+      background:rgba(199,163,91,.38);
+      margin:0 0 1.2rem;
+    }
+
+    .lead{
+      color:var(--muted);
+      font-size:1.05rem;
+      line-height:1.7;
+      margin-bottom:1.75rem;
+      max-width:64rem;
+    }
+
+    .intro-grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:16px;
+      margin-bottom:18px;
+    }
+
+    .intro-box,
+    .summary-box{
+      background:#fffdf8;
+      border:1px solid rgba(199,163,91,.35);
+      border-radius:10px;
+      padding:1.2rem 1.25rem;
+      box-shadow:0 8px 18px rgba(34,35,23,.06);
+    }
+
+    .intro-box h2,
+    .summary-box h2,
+    .rule-card h2{
+      margin:0 0 .75rem;
+      font-family:Georgia,"Times New Roman",serif;
+      color:#173f31;
+      font-size:1.45rem;
+    }
+
+    .intro-box p,
+    .summary-box p{
+      margin:.4rem 0;
+      line-height:1.7;
+      color:#314038;
+    }
+
+    .summary-box ul{
+      margin:.25rem 0 0 1.1rem;
+    }
+
+    .summary-box li{
+      margin:.35rem 0;
+      color:#314038;
+    }
+
+    .rules-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:16px;
+    }
+
+    .rule-card{
+      background:#fffdf8;
+      border:1px solid rgba(199,163,91,.35);
+      border-radius:10px;
+      padding:1.15rem 1.2rem;
+      box-shadow:0 8px 18px rgba(34,35,23,.06);
+    }
+
+    .rule-number{
+      display:inline-block;
+      margin-bottom:.7rem;
+      padding:.22rem .62rem;
+      border-radius:999px;
+      background:#efe4cb;
+      border:1px solid rgba(199,163,91,.4);
+      color:#6c5324;
+      font-weight:800;
+      font-size:.82rem;
+      letter-spacing:.02em;
+    }
+
+    .rule-card p{
+      margin:0;
+      line-height:1.68;
+      color:#314038;
+    }
+
+    .rule-card ul{
+      margin:.65rem 0 0 1.1rem;
+    }
+
+    .rule-card li{
+      margin:.35rem 0;
+      color:#314038;
+      line-height:1.6;
+    }
+
+    .footer-band{
+      margin-top:18px;
+      background:linear-gradient(180deg,#234c3d,#17384a);
+      color:#f2ede1;
+      border-top:2px solid var(--gold);
+      padding:18px 16px;
+      text-align:center;
+    }
+
+    .footer-band a{
+      color:#f2ede1;
+      text-decoration:none;
+      margin:0 10px;
+      font-weight:600;
+    }
+
+    @media (max-width: 950px){
+      .intro-grid,
+      .rules-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li>
+        <strong class="font-normal">
+          <span style="color:#E30613">ACEL</span>
+          <span style="color:#020A3A">CUP</span>
+        </strong>
+      </li>
+    </ul>
+    <ul>
+      <li><a href="index.html">Leaderboard</a></li>
+      <li><a href="register.html">Registrer Runde</a></li>
+      <li><a href="admin.html">Admin Panel</a></li>
+      <li><a href="register.html#auth" role="button">Logg inn</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <article class="page-card">
+      <h1 class="page-title">Regler</h1>
+      <div class="page-rule"></div>
+
+      <p class="lead">
+        ACEL CUP spilles gjennom sesongen på fem faste baner. Hver spiller kan spille disse banene når som helst i løpet av sesongen, og det er spillerens beste tellende nettoresultat per bane som danner grunnlaget for sesongtabellen.
+      </p>
+
+      <div class="intro-grid">
+        <section class="intro-box">
+          <h2>Gjennomføring</h2>
+          <p>Turneringen består av 5 faste baner.</p>
+          <p>Hver spiller kan spille banene når som helst i løpet av sesongen.</p>
+          <p>En bane kan spilles flere ganger i løpet av sesongen.</p>
+          <p>Banene kan spilles som 9 eller 18 hull.</p>
+          <p>9-hulls- og 18-hullsrunder inngår i samme tabell og samme konkurransegrunnlag.</p>
+          <p>For sesongtabellen er det alltid spillerens laveste nettoscore per bane som gjelder.</p>
+          <p>Hvis en spiller forbedrer sitt resultat på en bane senere i sesongen, erstatter det nye resultatet det gamle.</p>
+          <p>Poeng og plassering på den aktuelle banen oppdateres deretter.</p>
+          <p>Det er ikke et endelig krav at markør må være ansatt i ACEL, men det oppfordres til at turneringen i hovedsak gjennomføres som en sosial aktivitet sammen med kollegaer.</p>
+        </section>
+
+        <section class="summary-box">
+          <h2>Det kåres</h2>
+          <ul>
+            <li>Månedsvinner hver måned</li>
+            <li>Sesongvinner ved sesongslutt</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="rules-grid">
+        <section class="rule-card">
+          <div class="rule-number">Regel 1</div>
+          <h2>Tellende baner</h2>
+          <p>Turneringen spilles på følgende 5 baner:</p>
+          <ul>
+            <li>Solnør GK</li>
+            <li>Giske GK</li>
+            <li>Volda GK</li>
+            <li>Sunnmøre GK</li>
+            <li>Rauma GK</li>
+          </ul>
+          <p>Kun runder fra disse banene er tellende.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 2</div>
+          <h2>Spilleperiode</h2>
+          <p>Banene kan spilles fritt gjennom sesongen innen fastsatte frister. Det er ikke krav om å spille en bestemt bane i en bestemt måned.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 3</div>
+          <h2>Antall hull</h2>
+          <p>Tellende runder kan spilles som 9 eller 18 hull.</p>
+          <p>Runder spilt over 9 og 18 hull inngår i samme tabell og samme konkurransegrunnlag.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 4</div>
+          <h2>Spilleform</h2>
+          <p>Turneringen spilles som netto slagspill.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 5</div>
+          <h2>Maks score per hull</h2>
+          <p>Maks tellende score per hull er netto dobbel bogey.</p>
+          <p>Det betyr at høyeste tellende hullscore er:</p>
+          <ul>
+            <li>hullets par</li>
+            <li>pluss 2 slag</li>
+            <li>pluss eventuelle mottatte handicapslag på hullet</li>
+          </ul>
+          <p>Dette gjelder både for flyt i spillet og for rettferdig konkurranse.</p>
+          <p>For spillere som plukker opp ballen på et hull, kan dette registreres på en av følgende måter i scorekortet:</p>
+          <ul>
+            <li>markeres med -</li>
+            <li>føres som faktisk netto dobbel bogey</li>
+            <li>eller føres med faktisk antall brukte slag</li>
+          </ul>
+          <p>Systemet vil automatisk korrigere til netto dobbel bogey, også dersom antall registrerte slag er høyere enn dette.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 6</div>
+          <h2>Handicap</h2>
+          <p>Spillerens offisielle handicap på spilledagen skal legges til grunn for runden.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 7</div>
+          <h2>Tellende resultat per bane</h2>
+          <p>For hver av de 5 banene er det spillerens laveste nettoscore per bane som teller i sesongtabellen.</p>
+          <p>Hvis en spiller forbedrer sitt resultat på en bane senere i sesongen, vil:</p>
+          <ul>
+            <li>det nye resultatet overta som tellende resultat</li>
+            <li>det gamle resultatet falle bort</li>
+            <li>poeng og plassering på banen oppdateres</li>
+          </ul>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 8</div>
+          <h2>Grunnlag for rangering</h2>
+          <p>Det er laveste nettoscore per bane som brukes som grunnlag for rangering og plassering i turneringen.</p>
+          <p>Det gjelder både:</p>
+          <ul>
+            <li>ved rangering på den enkelte bane</li>
+            <li>ved kåring av månedsvinner</li>
+            <li>som grunnlag for poengtildeling i sesongen</li>
+          </ul>
+          <p>Laveste nettoscore regnes som beste resultat.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 9</div>
+          <h2>Poengsystem for sesongen</h2>
+          <p>Hver bane gir sesongpoeng basert på plassering. Poengsystemet er som følger:</p>
+          <ul>
+            <li>1. plass: 500 poeng</li>
+            <li>2. plass: 400 poeng</li>
+            <li>3. plass: 350 poeng</li>
+            <li>4. plass: 300 poeng</li>
+            <li>5. plass: 250 poeng</li>
+            <li>6. plass: 200 poeng</li>
+            <li>7. plass: 150 poeng</li>
+            <li>8. plass: 100 poeng</li>
+            <li>9.–10. plass: 50 poeng</li>
+            <li>11. plass og lavere: 20 poeng</li>
+          </ul>
+          <p>Hvis plasseringene på en bane endrer seg som følge av at noen forbedrer resultatet sitt, oppdateres poengene tilsvarende.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 10</div>
+          <h2>Månedsvinner</h2>
+          <p>Det kåres en månedsvinner hver måned.</p>
+          <p>Månedsvinneren er den spilleren som i løpet av måneden leverer den laveste nettoscoren på en tellende runde.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 11</div>
+          <h2>Sesongvinner</h2>
+          <p>Sesongvinneren er den spilleren som har høyest total poengsum når sesongen avsluttes.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 12</div>
+          <h2>Dokumentasjon av score</h2>
+          <p>For at en runde skal være tellende, må score leveres til turneringsledelsen.</p>
+          <p>Følgende gjelder:</p>
+          <ul>
+            <li>Score skal sendes på e-post til turneringsledelsen</li>
+            <li>Emnefeltet i e-posten må være: Scorekort</li>
+            <li>Det skal legges ved screenshot av innlevert score fra Golfbox</li>
+            <li>Screenshot skal vise innlevert score med markør</li>
+          </ul>
+          <p>Runder som ikke er dokumentert på denne måten, regnes ikke som tellende.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 13</div>
+          <h2>Frist for innsending</h2>
+          <p>Frist for innsending av scorekort er siste dag i hver måned.</p>
+          <p>Det oppfordres likevel til å sende inn score så raskt som mulig etter gjennomført runde, slik at belastningen på turneringsledelsen ved inntasting fordeles bedre gjennom sesongen.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 14</div>
+          <h2>Kontroll og avgjørelser</h2>
+          <p>Turneringsledelsen forbeholder seg retten til å kontrollere innsendte scorer og avgjøre eventuelle tvilstilfeller. Ved spørsmål om tolkning av reglementet er det turneringsledelsen som tar endelig beslutning.</p>
+        </section>
+
+        <section class="rule-card">
+          <div class="rule-number">Regel 15</div>
+          <h2>Premiering</h2>
+          <p>Det deles ut premier både for månedsvinnere og sesongvinner.</p>
+          <ul>
+            <li>Månedsvinner mottar en liten pokal.</li>
+            <li>Sesongvinner mottar pokal til odel og eie.</li>
+            <li>I tillegg får sesongvinneren æren av å ha turneringens vandrepokal i ett år, frem til neste sesongvinner kåres.</li>
+          </ul>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <div class="footer-band">
+    <a href="regler.html">Regler</a> |
+    <a href="kontakt.html">Kontakt</a> |
+    <a href="personvern.html">Personvern</a>
+  </div>
+</body>
+</html>
