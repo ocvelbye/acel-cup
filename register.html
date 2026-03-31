@@ -425,8 +425,33 @@ function populateCourseSelect(){
                                 opt.value=course; opt.textContent=course; el.roundCourse.appendChild(opt); 
                                }
                       ); 
-  onRoundCourseChange(); } populateCourseSelect();
-  
+  <script>
+function onRoundCourseChange(){ 
+  const course = el.roundCourse.value; 
+  const gender = state.profile?.gender || el.playerGender.value || 'Mann'; 
+  const options = teeData.filter(t => t.course === course && t.gender === gender); 
+
+  if (!options.length) {
+    el.roundTee.innerHTML = '<option value="">Ingen teevalg tilgjengelig</option>';
+    renderHoleInputs();
+    updateHoleInputsVisibility();
+    updateTeeInfoBox();
+    return;
+  }
+
+  el.roundTee.innerHTML = options
+    .map(t => `<option value="${String(t.tee).trim()}">${String(t.tee).trim()}</option>`)
+    .join('');
+
+  el.roundTee.value = String(options[0].tee).trim();
+
+  renderHoleInputs();
+  updateHoleInputsVisibility();
+  updateTeeInfoBox();
+}
+</script>
+} 
+  populateCourseSelect();
 function formatMonthKey(key){ 
   const [y,m]=key.split('-'); 
   return MONTH_NAMES[Number(m)-1]+' '+y; 
