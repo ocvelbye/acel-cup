@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ | ACEL CUP</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    :root{
+      --nav:#163949;
+      --nav2:#224b5d;
+      --green:#173f31;
+      --green2:#245746;
+      --gold:#c7a35b;
+      --paper:#f3efe6;
+      --paper2:#fbf8f1;
+      --line:#d8c8a3;
+      --ink:#24342d;
+      --muted:#6d6a62;
+      --shadow:0 14px 30px rgba(33,33,24,.12);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 25%),
+        var(--paper);
+      color:var(--ink);
+    }
+
+    nav.container-fluid{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:linear-gradient(180deg,var(--nav2),var(--nav));
+      border-bottom:3px solid var(--gold);
+      padding:.65rem 1.5rem;
+      box-shadow:0 4px 18px rgba(0,0,0,.12);
+    }
+
+    .font-normal{font-weight:normal}
+
+    nav strong{
+      font-family:Impact,"Arial Narrow",Arial,sans-serif;
+      font-size:2.05rem;
+      letter-spacing:.02em;
+      font-weight:700;
+    }
+
+    nav a{
+      color:#f6f2e8 !important;
+      font-weight:700;
+      text-decoration:none;
+    }
+
+    nav [role=button]{
+      background:transparent;
+      border:1px solid rgba(255,255,255,.34);
+      color:#f6f2e8;
+      padding:.45rem .95rem;
+      border-radius:2px;
+    }
+
+    main.container{
+      max-width:1360px;
+      padding-top:1.2rem;
+      padding-bottom:2rem;
+    }
+
+    .hero-card,
+    .faq-section{
+      background:linear-gradient(180deg,#fcfaf4,#f2eadb);
+      border:1px solid var(--line);
+      border-radius:10px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-card::before,
+    .faq-section::before{
+      content:"";
+      position:absolute;
+      inset:14px;
+      border:1px solid rgba(199,163,91,.18);
+      border-radius:8px;
+      pointer-events:none;
+    }
+
+    .hero-inner,
+    .section-inner{
+      position:relative;
+      z-index:1;
+      padding:1.9rem;
+    }
+
+    .hero-title,
+    .section-title{
+      font-family:Georgia,"Times New Roman",serif;
+      color:var(--green);
+      margin:0;
+      line-height:1.05;
+    }
+
+    .hero-title{
+      font-size:2.7rem;
+      text-align:center;
+    }
+
+    .section-title{
+      font-size:2.15rem;
+      margin-bottom:.25rem;
+    }
+
+    .rule{
+      width:100%;
+      height:1px;
+      background:rgba(199,163,91,.36);
+      margin:1rem 0 1.1rem;
+    }
+
+    .hero-copy{
+      max-width:58rem;
+      margin:0 auto;
+      text-align:center;
+      color:var(--muted);
+      font-size:1.06rem;
+      line-height:1.7;
+    }
+
+    .section-copy{
+      color:var(--muted);
+      max-width:60rem;
+      line-height:1.7;
+      margin-bottom:1.2rem;
+    }
+
+    .step-card{
+      background:#fffdf8;
+      border:1px solid rgba(199,163,91,.35);
+      border-radius:10px;
+      box-shadow:0 8px 18px rgba(34,35,23,.06);
+      padding:1.2rem;
+      margin-top:1rem;
+    }
+
+    .step-header{
+      display:flex;
+      align-items:center;
+      gap:.8rem;
+      margin-bottom:.85rem;
+    }
+
+    .step-number{
+      width:2.15rem;
+      height:2.15rem;
+      min-width:2.15rem;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:#efe4cb;
+      border:1px solid rgba(199,163,91,.45);
+      color:#6c5324;
+      font-weight:800;
+      font-size:1rem;
+    }
+
+    .step-title{
+      font-family:Georgia,"Times New Roman",serif;
+      color:#2d332e;
+      font-size:1.45rem;
+      margin:0;
+    }
+
+    .step-text{
+      color:#4f5a52;
+      line-height:1.7;
+      margin-bottom:1rem;
+    }
+
+    .step-list{
+      margin:0;
+      padding-left:1.2rem;
+      color:#3c463f;
+      line-height:1.7;
+    }
+
+    .step-list li{
+      margin:.3rem 0;
+    }
+
+    .shot{
+      margin-top:1rem;
+      background:#f7f1e5;
+      border:1px solid rgba(199,163,91,.34);
+      border-radius:10px;
+      padding:.7rem;
+    }
+
+    .shot img{
+      display:block;
+      width:100%;
+      border-radius:8px;
+      border:1px solid rgba(199,163,91,.24);
+      box-shadow:0 10px 22px rgba(0,0,0,.08);
+    }
+
+    .shot figcaption{
+      text-align:center;
+      color:var(--muted);
+      font-size:.95rem;
+      margin-top:.65rem;
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .highlight-box{
+      background:linear-gradient(180deg,#fffdf8,#f7f1e6);
+      border:1px solid rgba(199,163,91,.34);
+      border-radius:10px;
+      padding:1rem 1.1rem;
+      color:#445048;
+      line-height:1.7;
+      margin-top:1rem;
+    }
+
+    .footer-band{
+      margin-top:18px;
+      background:linear-gradient(180deg,#234c3d,#17384a);
+      color:#f2ede1;
+      border-top:2px solid var(--gold);
+      padding:18px 16px;
+      text-align:center;
+    }
+
+    .footer-band a{
+      color:#f2ede1;
+      text-decoration:none;
+      margin:0 10px;
+      font-weight:600;
+    }
+
+    @media (max-width:980px){
+      .two-col{
+        grid-template-columns:1fr;
+      }
+
+      .hero-title{
+        font-size:2.15rem;
+      }
+
+      .section-title{
+        font-size:1.8rem;
+      }
+    }
+
+    @media (max-width:720px){
+      nav.container-fluid{
+        padding:.6rem 1rem;
+      }
+
+      nav strong{
+        font-size:1.75rem;
+      }
+
+      .hero-inner,
+      .section-inner{
+        padding:1.15rem;
+      }
+
+      .step-title{
+        font-size:1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li>
+        <strong class="font-normal">
+          <span style="color:#E30613">ACEL</span>
+          <span style="color:#020A3A">CUP</span>
+        </strong>
+      </li>
+    </ul>
+    <ul>
+      <li><a href="index.html">Leaderboard</a></li>
+      <li><a href="register.html">Registrer Runde</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="faq.html" role="button">FAQ</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="hero-card">
+      <div class="hero-inner">
+        <h1 class="hero-title">Ofte stilte spørsmål</h1>
+        <div class="rule"></div>
+        <p class="hero-copy">
+          Her finner du en enkel guide til hvordan du oppretter bruker, lagrer spillerprofil og registrerer score i ACEL CUP.
+        </p>
+      </div>
+    </section>
+
+    <section class="faq-section" style="margin-top:1rem;">
+      <div class="section-inner">
+        <h2 class="section-title">Opprette ny bruker</h2>
+        <div class="rule"></div>
+        <p class="section-copy">
+          Følg stegene under for å opprette konto, logge inn og lagre spillerprofil.
+        </p>
+
+        <article class="step-card">
+          <div class="step-header">
+            <span class="step-number">1</span>
+            <h3 class="step-title">Trykk på Logg inn</h3>
+          </div>
+          <p class="step-text">
+            Start på forsiden eller på registreringssiden, og trykk på knappen <strong>Logg inn</strong> øverst til høyre.
+          </p>
+          <figure class="shot">
+            <img src="faq-login.png" alt="Skjermbilde som viser hvor Logg inn-knappen ligger">
+            <figcaption>Logg inn-knappen finner du øverst til høyre.</figcaption>
+          </figure>
+        </article>
+
+        <article class="step-card">
+          <div class="step-header">
+            <span class="step-number">2</span>
+            <h3 class="step-title">Skriv inn e-post og velg passord</h3>
+          </div>
+          <p class="step-text">
+            Skriv inn e-postadressen din og velg et passord på minst 6 tegn.
+          </p>
+          <figure class="shot">
+            <img src="faq-opprett-konto.png" alt="Skjermbilde av innlogging og opprett konto">
+            <figcaption>Fyll inn e-post og passord før du oppretter konto.</figcaption>
+          </figure>
+        </article>
+
+        <article class="step-card">
+          <div class="step-header">
+            <span class="step-number">3</span>
+            <h3 class="step-title">Trykk Opprett konto</h3>
+          </div>
+          <p class="step-text">
+            Når e-post og passord er fylt inn, trykker du på <strong>Opprett konto</strong>.
+          </p>
+          <ul class="step-list">
+            <li>Passordet må være minst 6 tegn.</li>
+            <li>Bruk samme e-postadresse som du senere vil logge inn med.</li>
+          </ul>
+        </article>
+
+        <article class="step-card">
+          <div class="step-header">
+            <span class="step-number">4</span>
+            <h3 class="step-title">Trykk Logg inn</h3>
+          </div>
+          <p class="step-text">
+            Når kontoen er opprettet, bruker du samme e-post og passord og trykker <strong>Logg inn</strong>.
+          </p>
+        </article>
+
+        <article class="step-card">
+          <div class="step-header">
+            <span class="step-number">5</span>
+            <h3 class="step-title">Skriv inn fornavn og etternavn</h3>
+          </div>
+          <p class="step-text">
+            Etter innlogging fyller du inn navnet ditt i spillerprofilen.
+          </p>
+          <figure class="shot">
+            <img src="faq-profil.png" alt="Skjermbilde av spillerprofil">
+            <figcaption>Fyll inn navn og velg kjønn i spillerprofilen.</figcaption>
+          </figure>
+        </article>
+
+        <article class="step-card">
+          <div class="step-header">
+            <span class="step-number">6</span>
+            <h3 class="step-title">Velg kjønn og lagre spillerprofil</h3>
+          </div>
+          <p class="step-text">
+            Velg kjønn i nedtrekkslisten og trykk deretter på <strong>Lagre spillerprofil</strong>.
+          </p>
+          <div class="highlight-box">
+            Når spillerprofilen er lagret, kan du registrere runder på kontoen din.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="faq-section" style="margin-top:1rem;">
+      <div class="section-inner">
+        <h2 class="section-title">Levere score</h2>
+        <div class="rule"></div>
+        <p class="section-copy">
+          For å registrere en runde må du være innlogget og ha lagret spillerprofil.
+        </p>
+
+        <article class="step-card">
+          <div class="step-header">
+            <span class="step-number">1</span>
+            <h3 class="step-title">Gå til Registrer Runde</h3>
+          </div>
+          <p class="step-text">
+            Åpne siden <strong>Registrer Runde</strong> i menyen. Du må være innlogget for å kunne sende inn score.
+          </p>
+          <figure class="shot">
+            <img src="faq-registrer-runde-1.png" alt="Skjermbilde av registrer ny runde">
+            <figcaption>Registrer runde-siden med felter for spiller, markør, bane, teested, dato, runde og handicap.</figcaption>
+          </figure>
+        </article>
+
+        <div class="two-col">
+          <article class="step-card">
+            <div class="step-header">
+              <span class="step-number">2</span>
+              <h3 class="step-title">Fyll inn markør</h3>
+            </div>
+            <p class="step-text">
+              Skriv inn navnet på markøren i feltet <strong>Markør</strong>.
+            </p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-header">
+              <span class="step-number">3</span>
+              <h3 class="step-title">Velg bane, teested, dato, rundetype og handicap</h3>
+            </div>
+            <p class="step-text">
+              Fyll ut alle feltene før du går videre til hullscore:
+            </p>
+            <ul class="step-list">
+              <li>Bane</li>
+              <li>Teested</li>
+              <li>Dato</li>
+              <li>Runde: 18 hull, front 9 eller back 9</li>
+              <li>Ditt handicap den dagen</li>
+            </ul>
+          </article>
+        </div>
+
+        <article class="step-card">
+          <div class="step-header">
+            <span class="step-number">4</span>
+            <h3 class="step-title">Tast inn hullscorer</h3>
+          </div>
+          <p class="step-text">
+            Under seksjonen <strong>Slag per Hull</strong> fyller du inn antall slag på hvert hull du har spilt.
+          </p>
+          <figure class="shot">
+            <img src="faq-hullscore.png" alt="Skjermbilde av slag per hull">
+            <figcaption>Fyll inn score på hvert hull i feltene under Slag per Hull.</figcaption>
+          </figure>
+        </article>
+
+        <article class="step-card">
+          <div class="step-header">
+            <span class="step-number">5</span>
+            <h3 class="step-title">Trykk Registrer Runde</h3>
+          </div>
+          <p class="step-text">
+            Når alle felter og hullscorer er fylt ut, trykker du på <strong>Registrer Runde</strong> nederst på siden.
+          </p>
+          <div class="highlight-box">
+            Kontroller gjerne bane, teested og handicap en ekstra gang før du sender inn runden.
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer-band">
+    <a href="regler.html">Regler</a> |
+    <a href="kontakt.html">Kontakt</a> |
+    <a href="personvern.html">Personvern</a>
+  </div>
+</body>
+</html>
