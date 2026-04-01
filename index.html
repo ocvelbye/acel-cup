@@ -530,13 +530,41 @@
       gap:14px;
     }
 
-    .participant-card{
-  display:block;
-  text-decoration:none;
+   .participant-card{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:72px;
+  background:linear-gradient(180deg,#fffdf8,#f7f1e6);
+  border:1px solid rgba(199,163,91,.34);
+  border-radius:10px;
+  padding:14px 16px;
+  box-shadow:0 8px 18px rgba(34,35,23,.06);
+  font-weight:700;
+  color:#173d2f !important;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:1.2rem;
+  text-align:center;
+  text-decoration:none !important;
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  cursor:pointer;
 }
 
 .participant-card:hover{
-  transform:translateY(-1px);
+  transform:translateY(-2px);
+  box-shadow:0 12px 22px rgba(34,35,23,.10);
+  border-color:rgba(199,163,91,.55);
+  color:#173d2f !important;
+}
+
+.participant-card:visited{
+  color:#173d2f !important;
+}
+
+.participants-grid{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0,1fr));
+  gap:14px;
 }
 
     .footer-band{
