@@ -531,17 +531,13 @@
     }
 
     .participant-card{
-      background:linear-gradient(180deg,#fffdf8,#f7f1e6);
-      border:1px solid rgba(199,163,91,.34);
-      border-radius:10px;
-      padding:14px 16px;
-      box-shadow:0 8px 18px rgba(34,35,23,.06);
-      font-weight:700;
-      color:#173d2f;
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:1.2rem;
-      text-align:center;
-    }
+  display:block;
+  text-decoration:none;
+}
+
+.participant-card:hover{
+  transform:translateY(-1px);
+}
 
     .footer-band{
       margin-top:18px;
@@ -1187,25 +1183,24 @@
           `).join('')
         : `<tr><td colspan="23">Ingen runder registrert enda.</td></tr>`;
     }
+function renderParticipants(players){
+  const rows = (players || [])
+    .map(p => ({
+      id: p.id,
+      name: (p.name || '').trim()
+    }))
+    .filter(p => p.id && p.name)
+    .sort((a,b) => a.name.localeCompare(b.name, 'no'));
 
-    function renderParticipants(players, rounds){
-      let names = [];
-
-      if(Array.isArray(players) && players.length){
-        names = players
-          .map(p => (p.name || '').trim())
-          .filter(Boolean);
-      } else {
-        names = [...new Set((rounds || []).map(r => (r.player_name || '').trim()).filter(Boolean))];
-      }
-
-      names = [...new Set(names)].sort((a,b) => a.localeCompare(b, 'no'));
-
-      el.participantsGrid.innerHTML = names.length
-        ? names.map(name => `<div class="participant-card">${name}</div>`).join('')
-        : `<div class="muted">Ingen påmeldte deltakere enda.</div>`;
-    }
-
+  el.participantsGrid.innerHTML = rows.length
+    ? rows.map(p => `
+        <a class="participant-card" href="spiller.html?id=${encodeURIComponent(p.id)}">
+          ${p.name}
+        </a>
+      `).join('')
+    : `<div class="muted">Ingen påmeldte deltakere ennå.</div>`;
+}
+    
     async function init(){
       const [{ data: rounds, error: roundsError }, { data: players, error: playersError }] = await Promise.all([
         supabaseClient.from('rounds').select('*').order('date', { ascending:false }),
