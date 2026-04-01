@@ -104,7 +104,7 @@
       display:grid;
       grid-template-columns:1.08fr 1fr;
       gap:18px;
-      align-items:start;
+      align-items:stretch;
     }
 
     .panel-card{
@@ -244,50 +244,51 @@
       color:var(--muted);
     }
 
-   .board-wrap{
-  display:flex;
-  flex-direction:column;
-  height:100%;
-}
+    .board-wrap{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
 
-.board-card{
-  position:relative;
-  background:linear-gradient(180deg,#184634,#153d2f);
-  border:4px solid #255645;
-  border-radius:4px;
-  box-shadow:var(--deep-shadow);
-  overflow:hidden;
-  min-height:420px;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-}
+    .board-card{
+      position:relative;
+      background:linear-gradient(180deg,#184634,#153d2f);
+      border:4px solid #255645;
+      border-radius:4px;
+      box-shadow:var(--deep-shadow);
+      overflow:hidden;
+      min-height:420px;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+    }
 
-.board-card::before{
-  content:"";
-  position:absolute;
-  inset:10px;
-  border:1px solid rgba(199,163,91,.32);
-  pointer-events:none;
-}
+    .board-card::before{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border:1px solid rgba(199,163,91,.32);
+      pointer-events:none;
+    }
 
-.board-title{
-  font-family:Georgia,"Times New Roman",serif;
-  color:#f0d8a2;
-  background:linear-gradient(180deg,#245c47,#173f31);
-  padding:15px 16px;
-  border-bottom:2px solid var(--gold);
-  font-size:2rem;
-  line-height:1.08;
-  text-align:center;
-  font-weight:700;
-}
+    .board-title{
+      font-family:Georgia,"Times New Roman",serif;
+      color:#f0d8a2;
+      background:linear-gradient(180deg,#245c47,#173f31);
+      padding:15px 16px;
+      border-bottom:2px solid var(--gold);
+      font-size:2rem;
+      line-height:1.08;
+      text-align:center;
+      font-weight:700;
+    }
 
-.board-inner{
-  padding:12px;
-  background:linear-gradient(180deg,#1d4e3c,#173f31);
-  flex:1;
-}
+    .board-inner{
+      padding:12px;
+      background:linear-gradient(180deg,#1d4e3c,#173f31);
+      flex:1;
+    }
+
     .masters-table{
       width:100%;
       border-collapse:collapse;
@@ -336,26 +337,6 @@
       font-size:1.9rem;
       line-height:1;
       white-space:nowrap;
-    }
-
-    .board-base{
-      width:88%;
-      height:56px;
-      margin:0 auto;
-      background:linear-gradient(180deg,#1f5a45,#164533);
-      border-left:4px solid #255645;
-      border-right:4px solid #255645;
-      border-bottom:4px solid #255645;
-      box-shadow:var(--deep-shadow);
-      position:relative;
-    }
-
-    .board-base::before{
-      content:"";
-      position:absolute;
-      inset:0 12px auto 12px;
-      height:1px;
-      background:rgba(199,163,91,.25);
     }
 
     .section-card{
@@ -501,6 +482,58 @@
       border-top:1px solid rgba(199,163,91,.28);
     }
 
+    .latest-rounds-table{
+      min-width:1400px;
+    }
+
+    .latest-rounds-table thead th,
+    .latest-rounds-table td{
+      text-align:center;
+      white-space:nowrap;
+      padding:.7rem .55rem;
+    }
+
+    .latest-rounds-table thead th:nth-child(1),
+    .latest-rounds-table thead th:nth-child(2),
+    .latest-rounds-table thead th:nth-child(3),
+    .latest-rounds-table td:nth-child(1),
+    .latest-rounds-table td:nth-child(2),
+    .latest-rounds-table td:nth-child(3){
+      text-align:left;
+    }
+
+    .latest-rounds-table td:nth-child(2){
+      font-weight:700;
+    }
+
+    .latest-rounds-table td:nth-child(22),
+    .latest-rounds-table td:nth-child(23){
+      font-weight:700;
+    }
+
+    .latest-rounds-table tbody td{
+      font-size:.95rem;
+    }
+
+    .participants-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .participant-card{
+      background:linear-gradient(180deg,#fffdf8,#f7f1e6);
+      border:1px solid rgba(199,163,91,.34);
+      border-radius:10px;
+      padding:14px 16px;
+      box-shadow:0 8px 18px rgba(34,35,23,.06);
+      font-weight:700;
+      color:#173d2f;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:1.2rem;
+      text-align:center;
+    }
+
     .footer-band{
       margin-top:18px;
       background:linear-gradient(180deg,#234c3d,#17384a);
@@ -523,6 +556,10 @@
       .winners-grid{
         grid-template-columns:repeat(3, minmax(0,1fr));
       }
+
+      .participants-grid{
+        grid-template-columns:repeat(3, minmax(0,1fr));
+      }
     }
 
     @media (max-width:1180px){
@@ -535,11 +572,11 @@
         aspect-ratio:16/8.2;
       }
 
-      .board-base{
-        width:80%;
+      .winners-grid{
+        grid-template-columns:repeat(2, minmax(0,1fr));
       }
 
-      .winners-grid{
+      .participants-grid{
         grid-template-columns:repeat(2, minmax(0,1fr));
       }
     }
@@ -575,7 +612,8 @@
         font-size:1.35rem;
       }
 
-      .winners-grid{
+      .winners-grid,
+      .participants-grid{
         grid-template-columns:1fr;
       }
     }
@@ -594,8 +632,7 @@
     <ul>
       <li><a href="index.html">Leaderboard</a></li>
       <li><a href="register.html">Registrer Runde</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-      <li><a href="admin.html">Admin</a></li>
+      <li><a href="admin.html">Admin Panel</a></li>
       <li><a href="register.html#auth" role="button">Logg inn</a></li>
     </ul>
   </nav>
@@ -611,9 +648,9 @@
           <div class="panel-inner">
             <h3 class="panel-title">Leaderboard måned</h3>
             <div class="panel-title-rule"></div>
-            <!-- Endret <p class="panel-subtitle">
+            <p class="panel-subtitle">
               Her vises alle spillere med registrerte runder i inneværende måned. Tabellen viser hver spillers beste runde denne måneden, med netto score og bane.
-            </p>-->
+            </p>
             <div class="month-chip" id="currentMonthLabel">Inneværende måned</div>
 
             <div class="monthly-board-shell">
@@ -657,9 +694,6 @@
               </div>
             </div>
           </article>
-          <!-- Fjernet
-          <div class="board-base" aria-hidden="true"></div>
-            -->
         </div>
       </div>
 
@@ -696,17 +730,65 @@
         </article>
 
         <article class="feature">
-          <h4>Birdies leaderboard</h4>
+          <h4>Topp 3 birdies</h4>
           <div id="birdieLeaders" class="stack-list"></div>
         </article>
       </div>
+
+      <section class="section-card" aria-labelledby="latestRoundsTitle">
+        <div class="section-inner">
+          <h3 class="section-title" id="latestRoundsTitle">5 siste runder</h3>
+          <div class="section-rule"></div>
+
+          <div style="overflow:auto;">
+            <table class="masters-table latest-rounds-table" id="latestRoundsTable">
+              <thead>
+                <tr>
+                  <th>Dato</th>
+                  <th>Spiller</th>
+                  <th>Bane</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  <th>5</th>
+                  <th>6</th>
+                  <th>7</th>
+                  <th>8</th>
+                  <th>9</th>
+                  <th>10</th>
+                  <th>11</th>
+                  <th>12</th>
+                  <th>13</th>
+                  <th>14</th>
+                  <th>15</th>
+                  <th>16</th>
+                  <th>17</th>
+                  <th>18</th>
+                  <th>Brutto</th>
+                  <th>Netto</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-card" aria-labelledby="participantsTitle">
+        <div class="section-inner">
+          <h3 class="section-title" id="participantsTitle">Påmeldte deltakere</h3>
+          <div class="section-rule"></div>
+          <div id="participantsGrid" class="participants-grid"></div>
+        </div>
+      </section>
     </div>
 
     <div class="footer-band">
-  <a href="regler.html">Regler</a> |
-  <a href="kontakt.html">Kontakt</a> |
-  <a href="personvern.html">Personvern</a>
-</div>
+      <a href="regler.html">Regler</a> |
+      <a href="kontakt.html">Kontakt</a> |
+      <a href="personvern.html">Personvern</a>
+    </div>
   </main>
 
   <script>
@@ -726,7 +808,9 @@
       pastWinnersGrid: document.getElementById('pastWinnersGrid'),
       acesList: document.getElementById('acesList'),
       bestHolesTableBody: document.querySelector('#bestHolesTable tbody'),
-      birdieLeaders: document.getElementById('birdieLeaders')
+      birdieLeaders: document.getElementById('birdieLeaders'),
+      latestRoundsTableBody: document.querySelector('#latestRoundsTable tbody'),
+      participantsGrid: document.getElementById('participantsGrid')
     };
 
     function currentMonthKey(){
@@ -947,7 +1031,7 @@
       const winners = getPastMonthlyWinners(rounds);
 
       if(!winners.length){
-        el.pastWinnersGrid.innerHTML = `<div class="muted">Ingen avsluttede måneder med registrerte vinnere enda.</div>`;
+        el.pastWinnersGrid.innerHTML = `<div class="muted">Ingen avsluttede måneder med registrerte vinnere ennå.</div>`;
         return;
       }
 
@@ -1006,7 +1090,7 @@
               <div class="muted">${e.course} • Hull ${e.hole} • ${formatDate(e.date)}</div>
             </div>
           `).join('')
-        : `<div class="muted">Ingen hole in one registrert enda.</div>`;
+        : `<div class="muted">Ingen hole in one registrert ennå.</div>`;
 
       const bestTypes = events
         .filter(e => ['Albatross','Eagle','Birdie'].includes(e.type))
@@ -1026,7 +1110,7 @@
               <td>${formatDate(e.date)}</td>
             </tr>
           `).join('')
-        : `<tr><td colspan="5">Ingen birdies eller bedre registrert enda.</td></tr>`;
+        : `<tr><td colspan="5">Ingen birdies eller bedre registrert ennå.</td></tr>`;
 
       const birdieMap = new Map();
       events
@@ -1046,7 +1130,7 @@
               <div class="muted">birdies</div>
             </div>
           `).join('')
-        : `<div class="muted">Ingen birdies registrert enda.</div>`;
+        : `<div class="muted">Ingen birdies registrert ennå.</div>`;
     }
 
     function renderSeasonTable(rounds){
@@ -1061,25 +1145,75 @@
               <td>${row.bestScore == null ? '—' : scoreHtml(row.bestScore)}</td>
             </tr>
           `).join('')
-        : `<tr><td colspan="4">Ingen sesongdata enda.</td></tr>`;
+        : `<tr><td colspan="4">Ingen sesongdata ennå.</td></tr>`;
+    }
+
+    function getHoleScoreValue(round, holeNumber){
+      const holes = Array.isArray(round.hole_breakdown) ? round.hole_breakdown : [];
+      const hole = holes.find(h => Number(h.hole) === Number(holeNumber));
+
+      if(!hole || !hole.played) return '—';
+      return hole.grossInput ?? '—';
+    }
+
+    function renderLatestRounds(rounds){
+      const rows = [...rounds]
+        .sort((a,b) =>
+          b.date.localeCompare(a.date) ||
+          (b.created_at || '').localeCompare(a.created_at || '')
+        )
+        .slice(0,5);
+
+      el.latestRoundsTableBody.innerHTML = rows.length
+        ? rows.map(round => `
+            <tr>
+              <td>${formatDate(round.date)}</td>
+              <td>${round.player_name}</td>
+              <td>${round.course}</td>
+              ${Array.from({ length: 18 }, (_, i) => `<td>${getHoleScoreValue(round, i + 1)}</td>`).join('')}
+              <td>${round.gross_total ?? '—'}</td>
+              <td>${round.net_total ?? '—'}</td>
+            </tr>
+          `).join('')
+        : `<tr><td colspan="23">Ingen runder registrert ennå.</td></tr>`;
+    }
+
+    function renderParticipants(players, rounds){
+      let names = [];
+
+      if(Array.isArray(players) && players.length){
+        names = players
+          .map(p => (p.name || '').trim())
+          .filter(Boolean);
+      } else {
+        names = [...new Set((rounds || []).map(r => (r.player_name || '').trim()).filter(Boolean))];
+      }
+
+      names = [...new Set(names)].sort((a,b) => a.localeCompare(b, 'no'));
+
+      el.participantsGrid.innerHTML = names.length
+        ? names.map(name => `<div class="participant-card">${name}</div>`).join('')
+        : `<div class="muted">Ingen påmeldte deltakere ennå.</div>`;
     }
 
     async function init(){
-      const { data: rounds, error } = await supabaseClient
-        .from('rounds')
-        .select('*')
-        .order('date', { ascending:false });
+      const [{ data: rounds, error: roundsError }, { data: players, error: playersError }] = await Promise.all([
+        supabaseClient.from('rounds').select('*').order('date', { ascending:false }),
+        supabaseClient.from('players').select('*').order('name', { ascending:true })
+      ]);
 
-      if(error){
-        console.error('Kunne ikke hente runder:', error);
-      }
+      if(roundsError) console.error('Kunne ikke hente runder:', roundsError);
+      if(playersError) console.error('Kunne ikke hente spillere:', playersError);
 
-      const all = rounds || [];
+      const allRounds = rounds || [];
+      const allPlayers = players || [];
 
-      renderCurrentMonthLeaderboard(all);
-      renderSeasonTable(all);
-      renderPastMonthlyWinners(all);
-      renderSpecialLists(all);
+      renderCurrentMonthLeaderboard(allRounds);
+      renderSeasonTable(allRounds);
+      renderPastMonthlyWinners(allRounds);
+      renderSpecialLists(allRounds);
+      renderLatestRounds(allRounds);
+      renderParticipants(allPlayers, allRounds);
     }
 
     init();
