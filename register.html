@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ACEL CUP</title>
+  <title>ACEL CUP – Registrer Runde</title>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -15,6 +15,7 @@
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "w4szteilw2");
   </script>
+
   <style>
     :root{
       --nav:#163949;
@@ -29,7 +30,12 @@
       --muted:#6d6a62;
       --shadow:0 12px 28px rgba(33,33,24,.12)
     }
-    body{ background:var(--paper); color:var(--ink) }
+
+    body{
+      background:var(--paper);
+      color:var(--ink)
+    }
+
     nav.container-fluid{
       background:linear-gradient(180deg,var(--nav2),var(--nav));
       border-bottom:3px solid var(--gold);
@@ -37,57 +43,75 @@
       top:0;
       z-index:50
     }
+
     .font-normal{font-weight:normal}
+
     nav strong{
       font-family:Impact,'Arial Narrow',Arial,sans-serif;
       font-size:2rem;
       font-weight:700
     }
-    nav a{ color:#f6f2e8!important; font-weight:700 }
+
+    nav a{
+      color:#f6f2e8!important;
+      font-weight:700
+    }
+
     nav [role=button]{
       background:transparent;
       border:1px solid rgba(255,255,255,.34);
       color:#f6f2e8
     }
+
     .surface{
       background:linear-gradient(180deg,#fbf8f1,#f3eadb);
       border:1px solid var(--line);
       border-radius:8px;
       box-shadow:var(--shadow)
     }
+
     main.container{
       max-width:1180px;
       padding-top:1.2rem;
       padding-bottom:2rem
     }
+
     .panel{padding:18px}
+
     .panel h2,.panel h3{
       font-family:Georgia,'Times New Roman',serif;
       color:var(--green)
     }
+
     .muted{color:var(--muted)}
+
     .form-grid{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:16px
     }
+
     .holes{
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:12px
     }
+
     .hole{
       background:#fffdf8;
       border:1px solid var(--line);
       border-radius:8px;
       padding:12px
     }
+
     .hole strong{
       display:block;
       font-family:Georgia,'Times New Roman',serif;
       color:var(--green)
     }
+
     .hidden{display:none!important}
+
     .note{
       padding:.95rem 1rem;
       border-radius:8px;
@@ -95,6 +119,72 @@
       background:#f5ecd9;
       color:#5f594d
     }
+
+    .confirm-box{
+      margin-top:1rem;
+      padding:1rem;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#fffaf0
+    }
+
+    .confirm-box label{
+      display:flex;
+      align-items:flex-start;
+      gap:.7rem;
+      margin:0
+    }
+
+    .confirm-box input[type="checkbox"]{
+      margin-top:.2rem;
+      transform:scale(1.15)
+    }
+
+    dialog{
+      border:none;
+      padding:0;
+      border-radius:14px;
+      width:min(92vw,720px)
+    }
+
+    dialog::backdrop{
+      background:rgba(0,0,0,.42);
+      backdrop-filter:blur(2px)
+    }
+
+    .reminder-modal{
+      background:linear-gradient(180deg,#fbf8f1,#f3eadb);
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden
+    }
+
+    .reminder-modal header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      padding:1rem 1.2rem;
+      background:linear-gradient(180deg,#1f5d47,#184334);
+      color:#f8f4ea;
+      border-bottom:2px solid var(--gold)
+    }
+
+    .reminder-modal header strong{
+      color:#f8f4ea
+    }
+
+    .reminder-modal .modal-body{
+      padding:1.2rem
+    }
+
+    .reminder-modal footer{
+      display:flex;
+      justify-content:flex-end;
+      gap:.75rem;
+      padding:0 1.2rem 1.2rem
+    }
+
     .toast{
       position:fixed;
       right:1rem;
@@ -108,12 +198,16 @@
       transition:.2s;
       z-index:100
     }
+
     .toast.show{
       opacity:1;
       transform:translateY(0)
     }
+
     @media (max-width:900px){
-      .form-grid,.holes{ grid-template-columns:1fr }
+      .form-grid,.holes{
+        grid-template-columns:1fr
+      }
     }
   </style>
 </head>
@@ -132,7 +226,7 @@
       <li><a href="register.html">Registrer Runde</a></li>
       <li><a href="faq.html">FAQ</a></li>
       <li><a href="admin.html">Admin</a></li>
-      <li><a href="#auth" role="button" id="navAuthButton">Logg inn</a></li>
+      <li><a href="register.html#auth" role="button" id="navAuthButton">Logg inn</a></li>
     </ul>
   </nav>
 
@@ -152,11 +246,13 @@
                 <input type="password" id="authPassword" placeholder="Passord" required>
               </div>
             </div>
+
             <div class="grid" style="margin-top:1rem;">
               <button type="submit">Logg inn</button>
               <button type="button" class="secondary" id="signupBtn">Opprett konto</button>
               <button type="button" class="secondary" id="logoutBtn">Logg ut</button>
             </div>
+
             <p id="authStatus" class="muted" style="margin-top:.8rem;">Ikke innlogget</p>
           </form>
         </article>
@@ -178,6 +274,7 @@
                 </select>
               </div>
             </div>
+
             <button type="submit" style="margin-top:1rem;">Lagre spillerprofil</button>
             <p id="profileStatus" class="muted" style="margin-top:.8rem;">Ingen profil lastet.</p>
           </form>
@@ -193,26 +290,32 @@
                 <label for="roundPlayerText">Spiller</label>
                 <input type="text" id="roundPlayerText" readonly>
               </div>
+
               <div>
                 <label for="roundMarker">Markør</label>
                 <input type="text" id="roundMarker" placeholder="Navn på markør" required>
               </div>
+
               <div>
                 <label for="roundCourse">Bane</label>
                 <select id="roundCourse" required></select>
               </div>
+
               <div>
                 <label for="roundTee">Teested</label>
                 <select id="roundTee" required></select>
               </div>
+
               <div>
                 <label for="roundDate">Dato</label>
                 <input type="date" id="roundDate" required>
               </div>
+
               <div>
                 <label for="roundMonth">Måned</label>
                 <input type="text" id="roundMonth" readonly>
               </div>
+
               <div>
                 <label for="roundFormat">Runde</label>
                 <select id="roundFormat" required>
@@ -221,6 +324,7 @@
                   <option value="back">Back 9</option>
                 </select>
               </div>
+
               <div>
                 <label for="roundHcp">Handicap</label>
                 <input type="number" id="roundHcp" step="0.1" min="0" max="54" placeholder="18.4" required>
@@ -232,6 +336,16 @@
             <h3 style="font-size:1.25rem;margin-top:1rem;">Slag per Hull</h3>
             <div class="holes" id="holeInputs"></div>
 
+            <div class="confirm-box">
+              <label for="scoreConfirmation">
+                <input type="checkbox" id="scoreConfirmation" required>
+                <span>
+                  Jeg bekrefter at jeg vil sende screenshot av godkjent scorekort fra Golfbox til
+                  <strong>ole.melbye@acel.no</strong> og skrive <strong>Scorekort</strong> i emnefeltet.
+                </span>
+              </label>
+            </div>
+
             <button type="submit" style="margin-top:1rem;">Registrer Runde</button>
             <p id="roundStatus" class="muted" style="margin-top:.8rem;">Ingen runde lagret ennå.</p>
           </form>
@@ -239,6 +353,32 @@
       </section>
     </div>
   </main>
+
+  <dialog id="scoreReminderDialog">
+    <div class="reminder-modal">
+      <header>
+        <strong>Viktig informasjon</strong>
+        <button type="button" aria-label="Lukk" rel="prev" id="closeScoreReminderBtn"></button>
+      </header>
+
+      <div class="modal-body">
+        <p>
+          Husk å sende screenshot av godkjent scorekort fra Golfbox til
+          <a href="mailto:ole.melbye@acel.no?subject=Scorekort">ole.melbye@acel.no</a>
+          og skriv <strong>Scorekort</strong> i emnefeltet.
+        </p>
+
+        <p>
+          Dersom dette ikke gjøres og du velges ut til tilfeldig kontroll, er ikke score gjeldende for sesongen.
+        </p>
+      </div>
+
+      <footer>
+        <a href="mailto:ole.melbye@acel.no?subject=Scorekort" role="button">Åpne e-post</a>
+        <button type="button" class="secondary" id="confirmScoreReminderBtn">OK</button>
+      </footer>
+    </div>
+  </dialog>
 
   <div class="toast" id="toast"></div>
 
@@ -261,6 +401,7 @@
       {course:'Solnør GK',gender:'Damer',tee:'56',courseRating:77.1,slope:145,coursePar:72},
       {course:'Solnør GK',gender:'Mann',tee:'61',courseRating:74.1,slope:150,coursePar:72},
       {course:'Solnør GK',gender:'Damer',tee:'61',courseRating:80,slope:153,coursePar:72},
+
       {course:'Giske GK',gender:'Mann',tee:'41',courseRating:63.4,slope:121,coursePar:66},
       {course:'Giske GK',gender:'Mann',tee:'39',courseRating:62.6,slope:119,coursePar:66},
       {course:'Giske GK',gender:'Mann',tee:'35',courseRating:61.3,slope:117,coursePar:66},
@@ -270,10 +411,12 @@
       {course:'Giske GK',gender:'Damer',tee:'36',courseRating:65.6,slope:114,coursePar:66},
       {course:'Giske GK',gender:'Damer',tee:'35',courseRating:64.5,slope:112,coursePar:66},
       {course:'Giske GK',gender:'Damer',tee:'33',courseRating:63.2,slope:113,coursePar:66},
+
       {course:'Volda GK',gender:'Mann',tee:'Gul',courseRating:67.1,slope:117,coursePar:70},
       {course:'Volda GK',gender:'Mann',tee:'Rød',courseRating:64,slope:110,coursePar:70},
       {course:'Volda GK',gender:'Damer',tee:'Gul',courseRating:70.3,slope:126,coursePar:70},
       {course:'Volda GK',gender:'Damer',tee:'Rød',courseRating:65.3,slope:113,coursePar:70},
+
       {course:'Sunnmøre GK',gender:'Mann',tee:'63',courseRating:75.9,slope:135,coursePar:74},
       {course:'Sunnmøre GK',gender:'Mann',tee:'60',courseRating:75.9,slope:130,coursePar:74},
       {course:'Sunnmøre GK',gender:'Mann',tee:'56',courseRating:74.7,slope:122,coursePar:74},
@@ -282,6 +425,7 @@
       {course:'Sunnmøre GK',gender:'Damer',tee:'60',courseRating:null,slope:null,coursePar:74},
       {course:'Sunnmøre GK',gender:'Damer',tee:'56',courseRating:null,slope:null,coursePar:74},
       {course:'Sunnmøre GK',gender:'Damer',tee:'52',courseRating:null,slope:null,coursePar:74},
+
       {course:'Rauma GK',gender:'Mann',tee:'42',courseRating:64.2,slope:121,coursePar:66},
       {course:'Rauma GK',gender:'Mann',tee:'37',courseRating:62.8,slope:116,coursePar:66},
       {course:'Rauma GK',gender:'Damer',tee:'42',courseRating:68.2,slope:124,coursePar:66},
@@ -307,6 +451,7 @@
       {course:'Solnør GK',hole:16,index:12,par:4},
       {course:'Solnør GK',hole:17,index:8,par:4},
       {course:'Solnør GK',hole:18,index:2,par:4},
+
       {course:'Giske GK',hole:1,index:17,par:3},
       {course:'Giske GK',hole:2,index:3,par:4},
       {course:'Giske GK',hole:3,index:5,par:5},
@@ -325,6 +470,7 @@
       {course:'Giske GK',hole:16,index:12,par:4},
       {course:'Giske GK',hole:17,index:16,par:3},
       {course:'Giske GK',hole:18,index:10,par:4},
+
       {course:'Volda GK',hole:1,index:13,par:4},
       {course:'Volda GK',hole:2,index:3,par:3},
       {course:'Volda GK',hole:3,index:5,par:4},
@@ -343,6 +489,7 @@
       {course:'Volda GK',hole:16,index:8,par:3},
       {course:'Volda GK',hole:17,index:18,par:4},
       {course:'Volda GK',hole:18,index:4,par:5},
+
       {course:'Sunnmøre GK',hole:1,index:11,par:4},
       {course:'Sunnmøre GK',hole:2,index:1,par:5},
       {course:'Sunnmøre GK',hole:3,index:7,par:4},
@@ -361,6 +508,7 @@
       {course:'Sunnmøre GK',hole:16,index:18,par:3},
       {course:'Sunnmøre GK',hole:17,index:10,par:4},
       {course:'Sunnmøre GK',hole:18,index:4,par:5},
+
       {course:'Rauma GK',hole:1,index:15,par:3},
       {course:'Rauma GK',hole:2,index:7,par:4},
       {course:'Rauma GK',hole:3,index:3,par:3},
@@ -394,10 +542,12 @@
       logoutBtn: document.getElementById('logoutBtn'),
       navAuthButton: document.getElementById('navAuthButton'),
       authStatus: document.getElementById('authStatus'),
+
       profileForm: document.getElementById('profileForm'),
       playerName: document.getElementById('playerName'),
       playerGender: document.getElementById('playerGender'),
       profileStatus: document.getElementById('profileStatus'),
+
       privateLocked: document.getElementById('privateLocked'),
       roundForm: document.getElementById('roundForm'),
       roundPlayerText: document.getElementById('roundPlayerText'),
@@ -411,6 +561,10 @@
       teeInfoBox: document.getElementById('teeInfoBox'),
       holeInputs: document.getElementById('holeInputs'),
       roundStatus: document.getElementById('roundStatus'),
+      scoreConfirmation: document.getElementById('scoreConfirmation'),
+      scoreReminderDialog: document.getElementById('scoreReminderDialog'),
+      closeScoreReminderBtn: document.getElementById('closeScoreReminderBtn'),
+      confirmScoreReminderBtn: document.getElementById('confirmScoreReminderBtn'),
       toast: document.getElementById('toast')
     };
 
@@ -425,6 +579,8 @@
       el.roundTee.addEventListener('change', updateTeeInfoBox);
       el.roundHcp.addEventListener('input', updateTeeInfoBox);
       el.roundFormat.addEventListener('change', updateHoleInputsVisibility);
+      el.closeScoreReminderBtn.addEventListener('click', closeScoreReminderDialog);
+      el.confirmScoreReminderBtn.addEventListener('click', closeScoreReminderDialog);
     }
     bindEvents();
 
@@ -482,6 +638,7 @@
         .join('');
 
       el.roundTee.value = String(options[0].tee).trim();
+
       renderHoleInputs();
       updateHoleInputsVisibility();
       updateTeeInfoBox();
@@ -545,6 +702,14 @@
       return Math.max(0, 1 + Math.floor((playingHandicap - holeIndex) / 18));
     }
 
+    function openScoreReminderDialog(){
+      el.scoreReminderDialog.showModal();
+    }
+
+    function closeScoreReminderDialog(){
+      el.scoreReminderDialog.close();
+    }
+
     async function refreshAuth(){
       const { data } = await supabaseClient.auth.getSession();
       state.session = data.session || null;
@@ -589,6 +754,7 @@
 
     async function onLogin(e){
       e.preventDefault();
+
       const { error } = await supabaseClient.auth.signInWithPassword({
         email: el.authEmail.value.trim(),
         password: el.authPassword.value
@@ -647,15 +813,12 @@
 
       const { error } = await supabaseClient
         .from('players')
-        .upsert(
-          {
-            user_id: state.session.user.id,
-            email: state.session.user.email,
-            name,
-            gender
-          },
-          { onConflict:'user_id' }
-        );
+        .upsert({
+          user_id: state.session.user.id,
+          email: state.session.user.email,
+          name,
+          gender
+        }, { onConflict:'user_id' });
 
       if(error){
         showToast('Lagring feilet: ' + error.message);
@@ -695,6 +858,7 @@
         const grossInput = played ? Number(grossByHole[hole.hole] ?? 0) : null;
         const strokes = strokesReceivedOnHole(playingHandicap, hole.index);
         const maxGrossAllowed = hole.par + 2 + strokes;
+
         let adjustedGross = null;
         let net = null;
 
@@ -755,9 +919,15 @@
         return;
       }
 
+      if(!el.scoreConfirmation.checked){
+        showToast('Du må bekrefte at screenshot sendes inn.');
+        return;
+      }
+
       try{
         const grossByHole = {};
         const holes = getCourseHoles(el.roundCourse.value);
+
         const played =
           el.roundFormat.value === 'front'
             ? holes.filter(h => h.hole <= 9).map(h => h.hole)
@@ -791,6 +961,7 @@
 
         el.roundStatus.textContent = 'Runde registrert.';
         showToast('Runde registrert.');
+        openScoreReminderDialog();
       } catch(err){
         showToast(err.message || 'Kunne ikke registrere runde.');
       }
