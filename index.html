@@ -15,6 +15,7 @@
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "w4szteilw2");
   </script>
+
   <style>
     :root{
       --nav:#163949;
@@ -530,42 +531,36 @@
       gap:14px;
     }
 
-   .participant-card{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:72px;
-  background:linear-gradient(180deg,#fffdf8,#f7f1e6);
-  border:1px solid rgba(199,163,91,.34);
-  border-radius:10px;
-  padding:14px 16px;
-  box-shadow:0 8px 18px rgba(34,35,23,.06);
-  font-weight:700;
-  color:#173d2f !important;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:1.2rem;
-  text-align:center;
-  text-decoration:none !important;
-  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-  cursor:pointer;
-}
+    .participant-card{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:72px;
+      background:linear-gradient(180deg,#fffdf8,#f7f1e6);
+      border:1px solid rgba(199,163,91,.34);
+      border-radius:10px;
+      padding:14px 16px;
+      box-shadow:0 8px 18px rgba(34,35,23,.06);
+      font-weight:700;
+      color:#173d2f !important;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:1.2rem;
+      text-align:center;
+      text-decoration:none !important;
+      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      cursor:pointer;
+    }
 
-.participant-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 22px rgba(34,35,23,.10);
-  border-color:rgba(199,163,91,.55);
-  color:#173d2f !important;
-}
+    .participant-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 22px rgba(34,35,23,.10);
+      border-color:rgba(199,163,91,.55);
+      color:#173d2f !important;
+    }
 
-.participant-card:visited{
-  color:#173d2f !important;
-}
-
-.participants-grid{
-  display:grid;
-  grid-template-columns:repeat(4, minmax(0,1fr));
-  gap:14px;
-}
+    .participant-card:visited{
+      color:#173d2f !important;
+    }
 
     .footer-band{
       margin-top:18px;
@@ -962,15 +957,12 @@
             player_name: row.player_name,
             points: 0,
             countedCourses: 0,
-            bestScore: null
+            totalRelative: 0
           };
 
           current.points += row.points;
           current.countedCourses += 1;
-
-          if(current.bestScore === null || row.score_relative < current.bestScore){
-            current.bestScore = row.score_relative;
-          }
+          current.totalRelative += row.score_relative;
 
           byPlayer.set(row.player_id, current);
         }
@@ -978,7 +970,7 @@
 
       const rows = [...byPlayer.values()].sort((a,b) =>
         b.points - a.points ||
-        (a.bestScore ?? 999) - (b.bestScore ?? 999) ||
+        a.totalRelative - b.totalRelative ||
         a.player_name.localeCompare(b.player_name, 'no')
       );
 
@@ -1065,7 +1057,7 @@
       const winners = getPastMonthlyWinners(rounds);
 
       if(!winners.length){
-        el.pastWinnersGrid.innerHTML = `<div class="muted">Ingen avsluttede måneder med registrerte vinnere enda.</div>`;
+        el.pastWinnersGrid.innerHTML = `<div class="muted">Ingen avsluttede måneder med registrerte vinnere ennå.</div>`;
         return;
       }
 
@@ -1124,7 +1116,7 @@
               <div class="muted">${e.course} • Hull ${e.hole} • ${formatDate(e.date)}</div>
             </div>
           `).join('')
-        : `<div class="muted">Ingen hole in one registrert enda.</div>`;
+        : `<div class="muted">Ingen hole in one registrert ennå.</div>`;
 
       const bestTypes = events
         .filter(e => ['Albatross','Eagle','Birdie'].includes(e.type))
@@ -1144,7 +1136,7 @@
               <td>${formatDate(e.date)}</td>
             </tr>
           `).join('')
-        : `<tr><td colspan="5">Ingen birdies eller bedre registrert enda.</td></tr>`;
+        : `<tr><td colspan="5">Ingen birdies eller bedre registrert ennå.</td></tr>`;
 
       const birdieMap = new Map();
       events
@@ -1164,7 +1156,7 @@
               <div class="muted">birdies</div>
             </div>
           `).join('')
-        : `<div class="muted">Ingen birdies registrert enda.</div>`;
+        : `<div class="muted">Ingen birdies registrert ennå.</div>`;
     }
 
     function renderSeasonTable(rounds){
@@ -1176,10 +1168,10 @@
               <td class="pos">${ordinalText(row.rank)}</td>
               <td>${row.player_name}</td>
               <td>${row.points}</td>
-              <td>${row.bestScore == null ? '—' : scoreHtml(row.bestScore)}</td>
+              <td>${row.countedCourses === 0 ? '—' : scoreHtml(row.totalRelative)}</td>
             </tr>
           `).join('')
-        : `<tr><td colspan="4">Ingen sesongdata enda.</td></tr>`;
+        : `<tr><td colspan="4">Ingen sesongdata ennå.</td></tr>`;
     }
 
     function getHoleScoreValue(round, holeNumber){
@@ -1209,26 +1201,27 @@
               <td>${round.net_total ?? '—'}</td>
             </tr>
           `).join('')
-        : `<tr><td colspan="23">Ingen runder registrert enda.</td></tr>`;
+        : `<tr><td colspan="23">Ingen runder registrert ennå.</td></tr>`;
     }
-function renderParticipants(players){
-  const rows = (players || [])
-    .map(p => ({
-      id: p.id,
-      name: (p.name || '').trim()
-    }))
-    .filter(p => p.id && p.name)
-    .sort((a,b) => a.name.localeCompare(b.name, 'no'));
 
-  el.participantsGrid.innerHTML = rows.length
-    ? rows.map(p => `
-        <a class="participant-card" href="spiller.html?id=${encodeURIComponent(p.id)}">
-          ${p.name}
-        </a>
-      `).join('')
-    : `<div class="muted">Ingen påmeldte deltakere enda.</div>`;
-}
-    
+    function renderParticipants(players){
+      const rows = (players || [])
+        .map(p => ({
+          id: p.id,
+          name: (p.name || '').trim()
+        }))
+        .filter(p => p.id && p.name)
+        .sort((a,b) => a.name.localeCompare(b.name, 'no'));
+
+      el.participantsGrid.innerHTML = rows.length
+        ? rows.map(p => `
+            <a class="participant-card" href="spiller.html?id=${encodeURIComponent(p.id)}">
+              ${p.name}
+            </a>
+          `).join('')
+        : `<div class="muted">Ingen påmeldte deltakere ennå.</div>`;
+    }
+
     async function init(){
       const [{ data: rounds, error: roundsError }, { data: players, error: playersError }] = await Promise.all([
         supabaseClient.from('rounds').select('*').order('date', { ascending:false }),
@@ -1246,7 +1239,7 @@ function renderParticipants(players){
       renderPastMonthlyWinners(allRounds);
       renderSpecialLists(allRounds);
       renderLatestRounds(allRounds);
-      renderParticipants(allPlayers, allRounds);
+      renderParticipants(allPlayers);
     }
 
     init();
