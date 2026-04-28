@@ -485,7 +485,19 @@
       text-align:left;
       font-size:inherit;
     }
+.section-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
 
+.round-count{
+  font-weight:800;
+  font-size:1.15rem;
+  color:#183b30;
+  white-space:nowrap;
+}
     .stack-list > div + div{
       margin-top:12px;
       padding-top:12px;
@@ -766,7 +778,10 @@
 
       <section class="section-card" aria-labelledby="latestRoundsTitle">
         <div class="section-inner">
-          <h3 class="section-title" id="latestRoundsTitle">5 siste runder</h3>
+          <div class="section-title-row">
+  <h3 class="section-title" id="latestRoundsTitle">5 siste runder</h3>
+  <div class="round-count" id="totalRoundsCount">Totalt antall runder: 0</div>
+</div>
           <div class="section-rule"></div>
 
           <div style="overflow:auto;">
@@ -830,6 +845,7 @@
     const POINTS_BY_RANK = {1:500,2:400,3:350,4:300,5:250,6:200,7:150,8:100,9:50,10:50};
 
     const el = {
+      totalRoundsCount: document.getElementById('totalRoundsCount'),
       currentMonthLabel: document.getElementById('currentMonthLabel'),
       monthlyLeaderboardTableBody: document.querySelector('#monthlyLeaderboardTable tbody'),
       monthlyLeaderboardEmpty: document.getElementById('monthlyLeaderboardEmpty'),
@@ -1183,6 +1199,8 @@
     }
 
     function renderLatestRounds(rounds){
+      el.totalRoundsCount.textContent = `Totalt antall runder: ${rounds.length}`;
+      
       const rows = [...rounds]
         .sort((a,b) =>
           b.date.localeCompare(a.date) ||
