@@ -236,9 +236,9 @@
 
     .score-badge{
       display:inline-block;
-      min-width:42px;
+      min-width:54px;
       text-align:center;
-      padding:.15rem .45rem;
+      padding:.3rem .65rem;
       border-radius:999px;
       font-weight:800;
       background:#f4ecdb;
@@ -485,7 +485,19 @@
       text-align:left;
       font-size:inherit;
     }
+.section-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
 
+.round-count{
+  font-weight:800;
+  font-size:1.15rem;
+  color:#183b30;
+  white-space:nowrap;
+}
     .stack-list > div + div{
       margin-top:12px;
       padding-top:12px;
@@ -493,7 +505,7 @@
     }
 
     .latest-rounds-table{
-      min-width:1480px;
+      min-width:1400px;
     }
 
     .latest-rounds-table thead th,
@@ -517,13 +529,12 @@
     }
 
     .latest-rounds-table td:nth-child(22),
-    .latest-rounds-table td:nth-child(23),
-    .latest-rounds-table td:nth-child(24){
+    .latest-rounds-table td:nth-child(23){
       font-weight:700;
     }
 
     .latest-rounds-table tbody td{
-      font-size:.85rem;
+      font-size:.95rem;
     }
 
     .participants-grid{
@@ -767,7 +778,10 @@
 
       <section class="section-card" aria-labelledby="latestRoundsTitle">
         <div class="section-inner">
-          <h3 class="section-title" id="latestRoundsTitle">5 siste runder</h3>
+          <div class="section-title-row">
+  <h3 class="section-title" id="latestRoundsTitle">5 siste runder</h3>
+  <div class="round-count" id="totalRoundsCount">Totalt antall runder: 0</div>
+</div>
           <div class="section-rule"></div>
 
           <div style="overflow:auto;">
@@ -797,7 +811,6 @@
                   <th>18</th>
                   <th>Brutto</th>
                   <th>Netto</th>
-                  <th>Resultat</th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -832,6 +845,7 @@
     const POINTS_BY_RANK = {1:500,2:400,3:350,4:300,5:250,6:200,7:150,8:100,9:50,10:50};
 
     const el = {
+      totalRoundsCount: document.getElementById('totalRoundsCount'),
       currentMonthLabel: document.getElementById('currentMonthLabel'),
       monthlyLeaderboardTableBody: document.querySelector('#monthlyLeaderboardTable tbody'),
       monthlyLeaderboardEmpty: document.getElementById('monthlyLeaderboardEmpty'),
@@ -859,34 +873,21 @@
       return `${d}.${m}.${y}`;
     }
 
-    function toNumber(value){
-      const n = Number(value);
-      return Number.isFinite(n) ? n : null;
-    }
-
     function scoreText(value){
-      const n = toNumber(value);
-      if(n === null) return '—';
-      return n < 0 ? String(n) : n > 0 ? `+${n}` : 'E';
+      return value < 0 ? String(value) : value > 0 ? `+${value}` : 'E';
     }
 
     function scoreHtml(value){
-      const n = toNumber(value);
-      if(n === null) return '—';
-
-      return n < 0
-        ? `<span class="under">${n}</span>`
-        : n > 0
-          ? `<span class="over">+${n}</span>`
+      return value < 0
+        ? `<span class="under">${value}</span>`
+        : value > 0
+          ? `<span class="over">+${value}</span>`
           : `<span class="even">E</span>`;
     }
 
     function scoreBadgeHtml(value){
-      const n = toNumber(value);
-      if(n === null) return '—';
-
-      const cls = n < 0 ? 'under' : n > 0 ? 'over' : 'even';
-      return `<span class="score-badge ${cls}">${scoreText(n)}</span>`;
+      const cls = value < 0 ? 'under' : value > 0 ? 'over' : 'even';
+      return `<span class="score-badge ${cls}">${scoreText(value)}</span>`;
     }
 
     function ordinalText(rank){
@@ -1197,11 +1198,9 @@
       return hole.grossInput ?? '—';
     }
 
-    function getLatestRoundResultHtml(round){
-      return scoreBadgeHtml(round.score_relative);
-    }
-
     function renderLatestRounds(rounds){
+      el.totalRoundsCount.textContent = `Totalt antall runder: ${rounds.length}`;
+      
       const rows = [...rounds]
         .sort((a,b) =>
           b.date.localeCompare(a.date) ||
@@ -1218,10 +1217,9 @@
               ${Array.from({ length: 18 }, (_, i) => `<td>${getHoleScoreValue(round, i + 1)}</td>`).join('')}
               <td>${round.gross_total ?? '—'}</td>
               <td>${round.net_total ?? '—'}</td>
-              <td>${getLatestRoundResultHtml(round)}</td>
             </tr>
           `).join('')
-        : `<tr><td colspan="24">Ingen runder registrert ennå.</td></tr>`;
+        : `<tr><td colspan="23">Ingen runder registrert ennå.</td></tr>`;
     }
 
     function renderParticipants(players){
@@ -1248,8 +1246,8 @@
         supabaseClient.from('players').select('*').order('name', { ascending:true })
       ]);
 
-      if(roundsError) console.error('Kunbe ikke hente runder:', roundsError);
-      if(playersError) console.error('Kunbe ikke hente spillere:', playersError);
+      if(roundsError) console.error('Kunne ikke hente runder:', roundsError);
+      if(playersError) console.error('Kunne ikke hente spillere:', playersError);
 
       const allRounds = rounds || [];
       const allPlayers = players || [];
